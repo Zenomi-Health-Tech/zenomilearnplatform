@@ -107,8 +107,8 @@ export default function AdminScormPage() {
         {message && <p className="mt-3 text-sm">{message}</p>}
 
         {/* Status table */}
-        <div className="mt-8 border border-gray-200 rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="mt-8 border border-gray-200 rounded-lg overflow-x-auto">
+          <table className="w-full text-sm min-w-[400px]">
             <thead className="bg-gray-100">
               <tr>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">Week</th>
