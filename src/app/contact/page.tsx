@@ -40,7 +40,7 @@ export default function ContactPage() {
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center text-sm">
           {[
-            { icon: "📧", label: "Email", value: "support@zunday.com" },
+            { icon: "📧", label: "Email", value: "support@zenomilearn.com" },
             { icon: "📞", label: "Phone", value: "+1 (555) 123-4567" },
             { icon: "📍", label: "Location", value: "San Francisco, CA" },
           ].map((c) => (

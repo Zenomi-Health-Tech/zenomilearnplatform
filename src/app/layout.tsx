@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Zunday - Emotional Regulation for Teens",
+  title: "ZenomiLearn - Emotional Regulation for Teens",
   description: "A guided journey to understanding, managing, and thriving with your emotions.",
 };
 

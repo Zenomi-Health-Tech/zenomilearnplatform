@@ -1,0 +1,10 @@
+{
+  "weeks": {
+    "1": { "title": "Sleep Hygiene & Nutrition", "uploaded": false, "entryPoint": null },
+    "2": { "title": "What Are Emotions?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:17:00.000Z" },
+    "3": { "title": "What is Empathy?", "uploaded": false, "entryPoint": null },
+    "4": { "title": "Self-Awareness", "uploaded": false, "entryPoint": null },
+    "5": { "title": "Self-Regulation", "uploaded": false, "entryPoint": null },
+    "6": { "title": "Building Resilience", "uploaded": false, "entryPoint": null }
+  }
+}

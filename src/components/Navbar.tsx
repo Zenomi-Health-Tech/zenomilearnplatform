@@ -16,8 +16,8 @@ export default function Navbar() {
     <nav className="bg-[#2d2d2d] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
         <Link href="/" className="text-xl font-bold">
-          <span className="text-white">Zun</span>
-          <span className="text-[#704180]">day</span>
+          <span className="text-white">Zenomi</span>
+          <span className="text-[#704180]">Learn</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">

@@ -10,7 +10,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-200 p-8">
         <div className="text-center mb-6">
           <Link href="/" className="text-2xl font-bold">
-            <span className="text-gray-900">Zun</span><span className="text-[#704180]">day</span>
+            <span className="text-gray-900">Zenomi</span><span className="text-[#704180]">Learn</span>
           </Link>
           <h1 className="mt-4 text-xl font-semibold text-gray-900">
             {isSignup ? "Create an Account" : "Welcome Back"}
