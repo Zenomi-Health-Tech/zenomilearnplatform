@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const weeks = [
   {
@@ -48,9 +48,24 @@ const weeks = [
   },
 ];
 
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); observer.unobserve(el); } },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
 function Arrow({ direction }: { direction: "left" | "right" }) {
   return (
-    <div className="flex justify-center py-1">
+    <div className="flex justify-center py-2">
       <svg width="90" height="20" viewBox="0 0 90 20" fill="none" className="text-[#b0b0b0]">
         {direction === "right" ? (
           <>
@@ -69,38 +84,52 @@ function Arrow({ direction }: { direction: "left" | "right" }) {
 }
 
 function WeekCard({ w, progress }: { w: (typeof weeks)[0]; progress?: string }) {
+  const ref = useScrollReveal();
   const statusLabel =
     progress === "completed" || progress === "passed" ? "Completed ✅" :
     progress === "incomplete" ? "In Progress 🔵" : null;
 
   return (
-    <Link href={`/courses/week/${w.week}`} className="block">
-      <div className="flex hover:shadow-md transition-shadow rounded-lg">
-        <div className={`${w.color} text-white flex flex-col items-center justify-center w-14 sm:w-16 shrink-0 rounded-l-lg`}>
-          <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase">Week</span>
-          <span className="text-2xl sm:text-3xl font-bold">{w.week}</span>
-        </div>
-        <div className="border border-l-0 border-gray-200 rounded-r-lg p-4 sm:p-5 flex-1">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{w.title}</h3>
-            {statusLabel && <span className="text-xs text-gray-500">{statusLabel}</span>}
+    <div ref={ref} className="scroll-fade">
+      <Link href={`/courses/week/${w.week}`} className="block">
+        <div className="flex hover:shadow-md transition-shadow rounded-lg">
+          <div className={`${w.color} text-white flex flex-col items-center justify-center w-14 sm:w-16 shrink-0 rounded-l-lg`}>
+            <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase">Week</span>
+            <span className="text-2xl sm:text-3xl font-bold">{w.week}</span>
           </div>
-          <ul className="space-y-2">
-            {w.bullets.map((b, j) => (
-              <li key={j} className="text-gray-600 text-[15px] leading-relaxed flex gap-2">
-                <span className="mt-0.5 shrink-0">•</span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="border border-l-0 border-gray-200 rounded-r-lg p-4 sm:p-5 flex-1">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{w.title}</h3>
+              {statusLabel && <span className="text-xs text-gray-500">{statusLabel}</span>}
+            </div>
+            <ul className="space-y-2">
+              {w.bullets.map((b, j) => (
+                <li key={j} className="text-gray-600 text-[15px] leading-relaxed flex gap-2">
+                  <span className="mt-0.5 shrink-0">•</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
+  );
+}
+
+function ImageBlock({ src, alt, direction }: { src: string; alt: string; direction: "left" | "right" }) {
+  const ref = useScrollReveal();
+  return (
+    <div ref={ref} className="scroll-fade hidden lg:flex flex-col items-center pt-2">
+      <Image src={src} alt={alt} width={240} height={200} className="rounded-lg object-cover" />
+      <Arrow direction={direction} />
+    </div>
   );
 }
 
 export default function Home() {
   const [progress, setProgress] = useState<Record<number, string>>({});
+  const headerRef = useScrollReveal();
 
   useEffect(() => {
     const p: Record<number, string> = {};
@@ -119,7 +148,7 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Header */}
-      <section className="pt-14 sm:pt-20 pb-8 sm:pb-12 text-center px-4">
+      <section ref={headerRef} className="scroll-fade pt-14 sm:pt-20 pb-8 sm:pb-12 text-center px-4">
         <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-[#704180]">
           6-Week Course
         </p>
@@ -131,43 +160,31 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Weeks 1-2 with images */}
+      {/* Weeks 1-2: image 1 left, image 3 right */}
       <section className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6 items-start">
-          <div className="hidden lg:flex flex-col items-center pt-2">
-            <Image src="/images/1.png" alt="Teens expressing emotions" width={240} height={200} className="rounded-lg object-cover" />
-            <Arrow direction="right" />
-          </div>
+          <ImageBlock src="/images/1.png" alt="Teens expressing emotions" direction="right" />
           <div className="space-y-3">
             <WeekCard w={weeks[0]} progress={progress[1]} />
             <WeekCard w={weeks[1]} progress={progress[2]} />
           </div>
-          <div className="hidden lg:flex flex-col items-center pt-2">
-            <Image src="/images/3.png" alt="Teens together" width={240} height={200} className="rounded-lg object-cover" />
-            <Arrow direction="left" />
-          </div>
+          <ImageBlock src="/images/3.png" alt="Teens together" direction="left" />
         </div>
       </section>
 
-      {/* Weeks 3-4 with images */}
+      {/* Weeks 3-4: image 2 left, image 3 right */}
       <section className="max-w-6xl mx-auto px-4 mt-3">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6 items-start">
-          <div className="hidden lg:flex flex-col items-center pt-2">
-            <Image src="/images/1.png" alt="Teens expressing emotions" width={240} height={200} className="rounded-lg object-cover" />
-            <Arrow direction="right" />
-          </div>
+          <ImageBlock src="/images/2.png" alt="Teens learning empathy" direction="right" />
           <div className="space-y-3">
             <WeekCard w={weeks[2]} progress={progress[3]} />
             <WeekCard w={weeks[3]} progress={progress[4]} />
           </div>
-          <div className="hidden lg:flex flex-col items-center pt-2">
-            <Image src="/images/3.png" alt="Teens together" width={240} height={200} className="rounded-lg object-cover" />
-            <Arrow direction="left" />
-          </div>
+          <ImageBlock src="/images/3.png" alt="Teens together" direction="left" />
         </div>
       </section>
 
-      {/* Weeks 5-6 centered */}
+      {/* Weeks 5-6: centered, no images */}
       <section className="max-w-6xl mx-auto px-4 mt-3 pb-16 sm:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6">
           <div className="hidden lg:block" />
