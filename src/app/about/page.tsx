@@ -3,9 +3,9 @@ export default function AboutPage() {
     <div className="bg-white py-16 px-4">
       <div className="max-w-3xl mx-auto">
         <p className="text-sm font-semibold tracking-[0.2em] uppercase text-[#704180] text-center">Who We Are</p>
-        <h1 className="mt-3 text-3xl md:text-4xl font-serif text-gray-900 text-center">About Zunday</h1>
+        <h1 className="mt-3 text-3xl md:text-4xl font-serif text-gray-900 text-center">About ZenomiLearn</h1>
         <p className="mt-6 text-gray-600 leading-relaxed text-center">
-          Zunday is dedicated to empowering teens with the emotional tools they need to thrive. Our programs are designed by mental health professionals and educators who understand the unique challenges young people face today.
+          ZenomiLearn is dedicated to empowering teens with the emotional tools they need to thrive. Our programs are designed by mental health professionals and educators who understand the unique challenges young people face today.
         </p>
 
         <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">

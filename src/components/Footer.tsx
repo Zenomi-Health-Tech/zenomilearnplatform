@@ -5,8 +5,8 @@ export default function Footer() {
     <footer className="bg-[#2d2d2d] text-gray-400 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         <div>
-          <span className="text-lg font-bold"><span className="text-white">Zun</span><span className="text-[#704180]">day</span></span>
-          <p className="mt-2">Empowering teens with emotional wellness education.</p>
+          <span className="text-lg font-bold"><span className="text-white">Zenomi</span><span className="text-[#704180]">Learn</span></span>
+          <p>Empowering teens with emotional wellness education.</p>
         </div>
         <div>
           <h4 className="font-semibold text-white mb-2">Links</h4>
@@ -26,12 +26,12 @@ export default function Footer() {
         </div>
         <div>
           <h4 className="font-semibold text-white mb-2">Contact</h4>
-          <p>support@zunday.com</p>
+          <p>support@zenomilearn.com</p>
           <p className="mt-1">+1 (555) 123-4567</p>
         </div>
       </div>
       <div className="border-t border-gray-700 text-center py-4 text-xs">
-        &copy; {new Date().getFullYear()} Zunday. All rights reserved.
+        &copy; {new Date().getFullYear()} ZenomiLearn. All rights reserved.
       </div>
     </footer>
   );

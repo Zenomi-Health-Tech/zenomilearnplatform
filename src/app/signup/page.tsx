@@ -6,7 +6,7 @@ export default function SignupPage() {
     <div className="bg-gray-50 py-16 px-4 min-h-[calc(100vh-112px)] flex items-center justify-center">
       <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
         <Link href="/" className="text-2xl font-bold">
-          <span className="text-gray-900">Zun</span><span className="text-[#704180]">day</span>
+          <span className="text-gray-900">Zenomi</span><span className="text-[#704180]">Learn</span>
         </Link>
         <h1 className="mt-4 text-xl font-semibold text-gray-900">Create an Account</h1>
         <p className="mt-1 text-sm text-gray-500 mb-6">Start your emotional wellness journey</p>
