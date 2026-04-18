@@ -1,4 +1,7 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const weeks = [
   {
@@ -65,29 +68,54 @@ function Arrow({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-function WeekCard({ w }: { w: (typeof weeks)[0] }) {
+function WeekCard({ w, progress }: { w: (typeof weeks)[0]; progress?: string }) {
+  const statusLabel =
+    progress === "completed" || progress === "passed" ? "Completed ✅" :
+    progress === "incomplete" ? "In Progress 🔵" : null;
+
   return (
-    <div className="flex">
-      <div className={`${w.color} text-white flex flex-col items-center justify-center w-14 sm:w-16 shrink-0 rounded-l-lg`}>
-        <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase">Week</span>
-        <span className="text-2xl sm:text-3xl font-bold">{w.week}</span>
+    <Link href={`/courses/week/${w.week}`} className="block">
+      <div className="flex hover:shadow-md transition-shadow rounded-lg">
+        <div className={`${w.color} text-white flex flex-col items-center justify-center w-14 sm:w-16 shrink-0 rounded-l-lg`}>
+          <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase">Week</span>
+          <span className="text-2xl sm:text-3xl font-bold">{w.week}</span>
+        </div>
+        <div className="border border-l-0 border-gray-200 rounded-r-lg p-4 sm:p-5 flex-1">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{w.title}</h3>
+            {statusLabel && <span className="text-xs text-gray-500">{statusLabel}</span>}
+          </div>
+          <ul className="space-y-2">
+            {w.bullets.map((b, j) => (
+              <li key={j} className="text-gray-600 text-[15px] leading-relaxed flex gap-2">
+                <span className="mt-0.5 shrink-0">•</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      <div className="border border-l-0 border-gray-200 rounded-r-lg p-4 sm:p-5 flex-1">
-        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3">{w.title}</h3>
-        <ul className="space-y-2">
-          {w.bullets.map((b, j) => (
-            <li key={j} className="text-gray-600 text-[15px] leading-relaxed flex gap-2">
-              <span className="mt-0.5 shrink-0">•</span>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </Link>
   );
 }
 
 export default function Home() {
+  const [progress, setProgress] = useState<Record<number, string>>({});
+
+  useEffect(() => {
+    const p: Record<number, string> = {};
+    for (let i = 1; i <= 6; i++) {
+      try {
+        const saved = localStorage.getItem(`scorm_progress_week_${i}`);
+        if (saved) {
+          const d = JSON.parse(saved);
+          if (d["cmi.core.lesson_status"]) p[i] = d["cmi.core.lesson_status"];
+        }
+      } catch {}
+    }
+    setProgress(p);
+  }, []);
+
   return (
     <div className="bg-white">
       {/* Header */}
@@ -106,19 +134,14 @@ export default function Home() {
       {/* Weeks 1-2 with images */}
       <section className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6 items-start">
-          {/* Left: image 1 + arrow */}
           <div className="hidden lg:flex flex-col items-center pt-2">
             <Image src="/images/1.png" alt="Teens expressing emotions" width={240} height={200} className="rounded-lg object-cover" />
             <Arrow direction="right" />
           </div>
-
-          {/* Center: week 1 & 2 cards */}
           <div className="space-y-3">
-            <WeekCard w={weeks[0]} />
-            <WeekCard w={weeks[1]} />
+            <WeekCard w={weeks[0]} progress={progress[1]} />
+            <WeekCard w={weeks[1]} progress={progress[2]} />
           </div>
-
-          {/* Right: image 3 + arrow */}
           <div className="hidden lg:flex flex-col items-center pt-2">
             <Image src="/images/3.png" alt="Teens together" width={240} height={200} className="rounded-lg object-cover" />
             <Arrow direction="left" />
@@ -129,19 +152,14 @@ export default function Home() {
       {/* Weeks 3-4 with images */}
       <section className="max-w-6xl mx-auto px-4 mt-3">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6 items-start">
-          {/* Left: image 1 (reused) + arrow */}
           <div className="hidden lg:flex flex-col items-center pt-2">
             <Image src="/images/1.png" alt="Teens expressing emotions" width={240} height={200} className="rounded-lg object-cover" />
             <Arrow direction="right" />
           </div>
-
-          {/* Center: week 3 & 4 cards */}
           <div className="space-y-3">
-            <WeekCard w={weeks[2]} />
-            <WeekCard w={weeks[3]} />
+            <WeekCard w={weeks[2]} progress={progress[3]} />
+            <WeekCard w={weeks[3]} progress={progress[4]} />
           </div>
-
-          {/* Right: image 3 (reused) + arrow */}
           <div className="hidden lg:flex flex-col items-center pt-2">
             <Image src="/images/3.png" alt="Teens together" width={240} height={200} className="rounded-lg object-cover" />
             <Arrow direction="left" />
@@ -149,13 +167,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Weeks 5-6 centered, no images */}
+      {/* Weeks 5-6 centered */}
       <section className="max-w-6xl mx-auto px-4 mt-3 pb-16 sm:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-x-6">
           <div className="hidden lg:block" />
           <div className="space-y-3">
-            <WeekCard w={weeks[4]} />
-            <WeekCard w={weeks[5]} />
+            <WeekCard w={weeks[4]} progress={progress[5]} />
+            <WeekCard w={weeks[5]} progress={progress[6]} />
           </div>
           <div className="hidden lg:block" />
         </div>
