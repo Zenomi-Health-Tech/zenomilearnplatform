@@ -72,9 +72,12 @@ export default function ContentProtection() {
     document.body.style.userSelect = "none";
     document.body.style.webkitUserSelect = "none";
 
-    // === 9. DevTools detection (production) ===
+    // === 9. DevTools detection (production, desktop only) ===
+    // Skip on mobile — outerWidth/innerWidth diff is unreliable on mobile browsers
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let devtoolsDetected = false;
     const detectDevTools = () => {
+      if (isMobile) return;
       const threshold = 160;
       const widthDiff = window.outerWidth - window.innerWidth > threshold;
       const heightDiff = window.outerHeight - window.innerHeight > threshold;
@@ -139,7 +142,7 @@ export default function ContentProtection() {
       aria-hidden="true"
       className="fixed inset-0 z-[9998] pointer-events-none select-none overflow-hidden whitespace-nowrap leading-[3] text-[11px] tracking-widest break-all"
       style={{
-        color: "rgba(112,65,128,0.03)",
+        color: "rgba(112,65,128,0.008)",
         transform: "rotate(-25deg) scale(1.5)",
         transformOrigin: "center center",
       }}
