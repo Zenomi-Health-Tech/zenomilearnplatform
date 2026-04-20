@@ -35,7 +35,7 @@ export default function ContentProtection() {
     // === 3. Disable drag/copy/cut/selectall ===
     const prevent = (e: Event) => e.preventDefault();
 
-    // === 4. Blur on visibility change (tab switch / app switch) ===
+    // === 5. Blur on window blur — only if document is also hidden (real app switch, not iframe focus) ===
     const onVisibility = () => {
       if (document.hidden) {
         document.body.style.filter = "blur(30px)";
@@ -43,10 +43,6 @@ export default function ContentProtection() {
         document.body.style.filter = "";
       }
     };
-
-    // === 5. Blur on window blur (covers more cases than visibilitychange) ===
-    const onWindowBlur = () => { document.body.style.filter = "blur(30px)"; };
-    const onWindowFocus = () => { document.body.style.filter = ""; };
 
     // === 6. Detect screen capture API ===
     const checkCapture = async () => {
@@ -106,8 +102,6 @@ export default function ContentProtection() {
     document.addEventListener("cut", prevent);
     document.addEventListener("visibilitychange", onVisibility);
     document.addEventListener("enterpictureinpicture", onPiP);
-    window.addEventListener("blur", onWindowBlur);
-    window.addEventListener("focus", onWindowFocus);
 
     let interval: NodeJS.Timeout | null = null;
     if (process.env.NODE_ENV === "production") {
@@ -122,8 +116,6 @@ export default function ContentProtection() {
       document.removeEventListener("cut", prevent);
       document.removeEventListener("visibilitychange", onVisibility);
       document.removeEventListener("enterpictureinpicture", onPiP);
-      window.removeEventListener("blur", onWindowBlur);
-      window.removeEventListener("focus", onWindowFocus);
       document.body.style.userSelect = "";
       document.body.style.webkitUserSelect = "";
       document.body.style.filter = "";
