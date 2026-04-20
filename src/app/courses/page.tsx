@@ -11,17 +11,17 @@ const courses = [
 
 export default function CoursesPage() {
   return (
-    <div className="bg-white py-16 px-4">
+    <div className="bg-white py-12 sm:py-16 px-3 sm:px-4">
       <div className="max-w-5xl mx-auto">
-        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-[#704180] text-center">Our Programs</p>
-        <h1 className="mt-3 text-3xl md:text-4xl font-serif text-gray-900 text-center">Courses</h1>
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-[#704180] text-center">Our Programs</p>
+        <h1 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 text-center">Courses</h1>
         <p className="mt-3 text-gray-500 text-center max-w-lg mx-auto">Explore our curated programs designed to support teen emotional wellness.</p>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((c) => (
             <div key={c.title} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
               <div className={`${c.color} h-3`} />
-              <div className="p-5">
+              <div className="p-4 sm:p-5">
                 <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                   <span>{c.weeks} Weeks</span>
                   <span>•</span>

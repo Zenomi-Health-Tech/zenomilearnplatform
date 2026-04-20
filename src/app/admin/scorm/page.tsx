@@ -63,8 +63,8 @@ export default function AdminScormPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-serif text-gray-900 mb-1">SCORM Content Manager</h1>
-        <p className="text-gray-500 text-sm mb-8">Upload and manage SCORM packages for each week</p>
+        <h1 className="text-xl sm:text-2xl font-serif text-gray-900 mb-1">SCORM Content Manager</h1>
+        <p className="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-8">Upload and manage SCORM packages for each week</p>
 
         {/* Week selector */}
         <div className="mb-4">
@@ -87,7 +87,7 @@ export default function AdminScormPage() {
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onDrop={onDrop}
-          className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
+          className={`border-2 border-dashed rounded-lg p-8 sm:p-12 text-center transition-colors cursor-pointer ${
             dragOver ? "border-[#704180] bg-purple-50" : "border-gray-300 bg-white"
           }`}
           onClick={() => document.getElementById("file-input")?.click()}

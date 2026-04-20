@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Emotional Regulation in Teens – Pediatric Residents</title>
   <style>
     body {
@@ -61,7 +62,7 @@
       padding: 24px;
       box-sizing: border-box;
       position: relative;
-      overflow: hidden;
+      overflow: auto;
     }
     .chapter {
       position: absolute;
@@ -139,6 +140,17 @@
     #score-display {
       font-weight: bold;
       color: #243b6b;
+    }
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 18px; }
+      #container { flex-direction: column; min-height: auto; }
+      #sidebar { width: 100%; border-right: none; border-bottom: 1px solid #dde3f0; padding: 12px; display: flex; flex-wrap: wrap; gap: 4px; }
+      #sidebar h2 { width: 100%; margin-bottom: 4px; }
+      .chapter-link { font-size: 12px; padding: 6px 8px; }
+      #content { padding: 16px; position: static; overflow: auto; }
+      .chapter { position: static; padding-bottom: 20px; }
+      .nav-buttons { padding-bottom: 16px; }
     }
   </style>
   <script>

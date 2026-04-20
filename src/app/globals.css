@@ -16,6 +16,13 @@ body {
   -webkit-touch-callout: none;
 }
 
+/* Prevent long-press actions on mobile (iOS/Android) */
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
 /* Prevent content capture in supported browsers */
 @media (display-mode: picture-in-picture) {
   body { filter: blur(30px) !important; }
@@ -25,6 +32,20 @@ body {
 img, video, canvas, iframe {
   -webkit-touch-callout: none;
   pointer-events: auto;
+}
+
+/* SCORM iframe mobile fix - ensure content is scrollable and fills viewport */
+.scorm-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100dvh - 44px);
+}
+
+@supports not (height: 100dvh) {
+  .scorm-iframe {
+    min-height: calc(100vh - 44px);
+  }
 }
 
 /* Scroll reveal */

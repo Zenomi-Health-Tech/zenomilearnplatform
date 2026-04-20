@@ -121,7 +121,7 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
   const isInProgress = prog?.status === "incomplete";
   const notStarted = !prog;
 
-  const buttonLabel = isCompleted ? "Restart Course" : isInProgress ? "Resume Course" : "Start Course";
+  const buttonLabel = isCompleted ? "Restart" : isInProgress ? "Resume" : "Start";
   const buttonStyle = isCompleted
     ? "bg-white text-[#2d8a5e] border border-[#2d8a5e]/30 hover:bg-[#2d8a5e]/5"
     : isInProgress
@@ -147,30 +147,30 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
           </div>
 
           {/* Content */}
-          <div className="px-5 py-4 sm:px-6 sm:py-5 flex-1 min-w-0">
+          <div className="px-3 py-3 sm:px-6 sm:py-5 flex-1 min-w-0">
             {/* Title + badge */}
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <h3 className="text-[18px] sm:text-[21px] font-[family-name:var(--font-playfair)] text-gray-900 leading-snug">
+            <div className="flex items-start justify-between gap-2 mb-2 sm:mb-3">
+              <h3 className="text-[16px] sm:text-[21px] font-[family-name:var(--font-playfair)] text-gray-900 leading-snug">
                 {w.title}
               </h3>
               {isCompleted && (
-                <span className="shrink-0 flex items-center gap-1.5 text-[10px] font-semibold text-[#2d8a5e] bg-[#2d8a5e]/8 border border-[#2d8a5e]/20 px-2.5 py-1 rounded-full">
+                <span className="shrink-0 flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-[#2d8a5e] bg-[#2d8a5e]/8 border border-[#2d8a5e]/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#2d8a5e]" />
-                  Completed
+                  Done
                 </span>
               )}
               {isInProgress && (
-                <span className="shrink-0 flex items-center gap-1.5 text-[10px] font-semibold text-[#704180] bg-[#704180]/8 border border-[#704180]/20 px-2.5 py-1 rounded-full">
+                <span className="shrink-0 flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-[#704180] bg-[#704180]/8 border border-[#704180]/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#704180] animate-pulse" />
-                  {prog.percentage}% Done
+                  {prog.percentage}%
                 </span>
               )}
             </div>
 
             {/* Bullets */}
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               {w.bullets.map((b, j) => (
-                <li key={j} className="text-gray-600 text-[14px] sm:text-[15px] leading-[1.7] flex gap-2">
+                <li key={j} className="text-gray-600 text-[13px] sm:text-[15px] leading-[1.6] flex gap-2">
                   <span className="mt-[6px] shrink-0 w-[5px] h-[5px] rounded-full bg-gray-300" />
                   <span>{b}</span>
                 </li>
@@ -190,24 +190,24 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
             )}
 
             {/* Footer: info + button */}
-            <div className="mt-3 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5 text-[11px] sm:text-[12px] text-gray-400 flex-wrap">
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-[10px] sm:text-[12px] text-gray-400 flex-wrap min-w-0">
                 {isInProgress && cleanLocation && (
                   <span>📍 {cleanLocation}</span>
                 )}
                 {isInProgress && (
-                  <span className="text-[#704180] font-medium">{100 - prog.percentage}% remaining</span>
+                  <span className="text-[#704180] font-medium">{100 - prog.percentage}% left</span>
                 )}
                 {prog && formatTime(prog.totalTime) && (
-                  <span>⏱ {formatTime(prog.totalTime)} spent</span>
+                  <span>⏱ {formatTime(prog.totalTime)}</span>
                 )}
                 {isCompleted && (
-                  <span className="text-[#2d8a5e] font-medium">All lessons complete ✓</span>
+                  <span className="text-[#2d8a5e] font-medium">Complete ✓</span>
                 )}
               </div>
 
               <span
-                className={`shrink-0 text-[12px] font-semibold px-4 py-2 rounded-lg transition-all ${buttonStyle}`}
+                className={`shrink-0 text-[11px] sm:text-[12px] font-semibold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all ${buttonStyle}`}
                 style={notStarted ? { backgroundColor: w.colorHex } : undefined}
               >
                 {buttonLabel} →
@@ -233,14 +233,14 @@ export default function Home() {
   return (
     <div className="bg-[#f4f0f7]">
       {/* Header */}
-      <section ref={headerRef} className="reveal header-glow pt-16 sm:pt-24 pb-12 sm:pb-16 text-center px-4">
-        <p className="text-[11px] sm:text-[13px] font-semibold tracking-[0.25em] uppercase text-[#704180]">
+      <section ref={headerRef} className="reveal header-glow pt-12 sm:pt-24 pb-10 sm:pb-16 text-center px-4">
+        <p className="text-[10px] sm:text-[13px] font-semibold tracking-[0.25em] uppercase text-[#704180]">
           6-Week Course
         </p>
-        <h1 className="mt-5 text-[32px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-[family-name:var(--font-playfair)] font-normal text-gray-900 leading-[1.12]">
+        <h1 className="mt-4 text-[26px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-[family-name:var(--font-playfair)] font-normal text-gray-900 leading-[1.15]">
           Emotional Regulation<br className="hidden sm:block" /> for Teens
         </h1>
-        <p className="mt-5 text-gray-500 text-[15px] sm:text-[17px] max-w-[520px] mx-auto leading-[1.7]">
+        <p className="mt-4 text-gray-500 text-[14px] sm:text-[17px] max-w-[520px] mx-auto leading-[1.7]">
           A guided journey to understanding, managing, and thriving with your emotions.
         </p>
       </section>

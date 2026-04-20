@@ -5,14 +5,14 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="bg-white py-16 px-4">
+    <div className="bg-white py-10 sm:py-16 px-3 sm:px-4">
       <div className="max-w-2xl mx-auto">
-        <p className="text-sm font-semibold tracking-[0.2em] uppercase text-[#704180] text-center">Get In Touch</p>
-        <h1 className="mt-3 text-3xl md:text-4xl font-serif text-gray-900 text-center">Contact Us</h1>
-        <p className="mt-3 text-gray-500 text-center">Have questions? We&apos;d love to hear from you.</p>
+        <p className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-[#704180] text-center">Get In Touch</p>
+        <h1 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-serif text-gray-900 text-center">Contact Us</h1>
+        <p className="mt-3 text-gray-500 text-center text-sm sm:text-base">Have questions? We&apos;d love to hear from you.</p>
 
         {submitted ? (
-          <div className="mt-10 text-center p-8 bg-green-50 rounded-lg">
+          <div className="mt-10 text-center p-5 sm:p-8 bg-green-50 rounded-lg">
             <p className="text-green-700 font-semibold">Thank you! We&apos;ll get back to you soon.</p>
           </div>
         ) : (
