@@ -117,8 +117,10 @@ export default function ScormPlayer({ weekId, entryPoint, onStatusChange }: Prop
     <iframe
       ref={iframeRef}
       src={`/scorm/week-${weekId}/${entryPoint}`}
-      className="w-full h-full border-0"
+      className="w-full border-0 scorm-iframe"
+      style={{ height: "100%", minHeight: "calc(100dvh - 44px)" }}
       allow="autoplay"
+      scrolling="auto"
       title="SCORM Content"
     />
   );

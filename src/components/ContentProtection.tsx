@@ -1,14 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ContentProtection() {
   const [blocked, setBlocked] = useState(false);
+  const [blockReason, setBlockReason] = useState("");
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // === 1. Disable right-click ===
     const noContext = (e: MouseEvent) => e.preventDefault();
 
-    // === 2. Disable keyboard shortcuts ===
+    // === 2. Disable keyboard shortcuts (desktop) ===
     const noKeys = (e: KeyboardEvent) => {
       if (e.key === "F12") { e.preventDefault(); return; }
       const ctrl = e.ctrlKey || e.metaKey;
@@ -16,98 +18,112 @@ export default function ContentProtection() {
       if (ctrl && shift && ["I","i","J","j","C","c"].includes(e.key)) { e.preventDefault(); return; }
       if (ctrl && (e.key === "u" || e.key === "U")) { e.preventDefault(); return; }
       if (ctrl && ["s","S","p","P"].includes(e.key)) { e.preventDefault(); return; }
-      // PrintScreen - blur content and clear clipboard
       if (e.key === "PrintScreen") {
         e.preventDefault();
-        navigator.clipboard.writeText("").catch(() => {});
-        document.body.style.filter = "blur(30px)";
-        setTimeout(() => { document.body.style.filter = ""; }, 1500);
+        navigator.clipboard?.writeText("").catch(() => {});
+        flashBlur();
         return;
       }
-      // Windows Snipping Tool: Win+Shift+S
       if (e.metaKey && shift && (e.key === "s" || e.key === "S")) { e.preventDefault(); return; }
-      // Mac screenshot: Cmd+Shift+3, Cmd+Shift+4, Cmd+Shift+5
-      if (e.metaKey && shift && ["3","4","5"].includes(e.key)) { e.preventDefault(); return; }
-    };
-
-    // === 3. Disable drag/copy/cut ===
-    const noDrag = (e: DragEvent) => e.preventDefault();
-    const noCopy = (e: ClipboardEvent) => e.preventDefault();
-
-    // === 4. Screen capture detection via Permissions API ===
-    const checkScreenCapture = async () => {
-      try {
-        // @ts-expect-error - display-capture is valid but not in all TS types
-        const permStatus = await navigator.permissions.query({ name: "display-capture" });
-        if (permStatus.state === "granted") {
-          setBlocked(true);
-        }
-        permStatus.onchange = () => {
-          if (permStatus.state === "granted") setBlocked(true);
-        };
-      } catch {
-        // Not supported in all browsers - that's ok
+      if (e.metaKey && shift && ["3","4","5"].includes(e.key)) {
+        e.preventDefault();
+        flashBlur();
+        return;
       }
     };
-    checkScreenCapture();
 
-    // === 5. Visibility change detection - blur on tab switch (potential recording) ===
-    const onVisibilityChange = () => {
+    // === 3. Disable drag/copy/cut/selectall ===
+    const prevent = (e: Event) => e.preventDefault();
+
+    // === 4. Blur on visibility change (tab switch / app switch) ===
+    const onVisibility = () => {
       if (document.hidden) {
-        document.body.style.filter = "blur(20px)";
+        document.body.style.filter = "blur(30px)";
       } else {
         document.body.style.filter = "";
       }
     };
 
-    // === 6. Detect Picture-in-Picture (potential recording workaround) ===
+    // === 5. Blur on window blur (covers more cases than visibilitychange) ===
+    const onWindowBlur = () => { document.body.style.filter = "blur(30px)"; };
+    const onWindowFocus = () => { document.body.style.filter = ""; };
+
+    // === 6. Detect screen capture API ===
+    const checkCapture = async () => {
+      try {
+        // @ts-expect-error - display-capture is valid
+        const p = await navigator.permissions.query({ name: "display-capture" });
+        const check = () => {
+          if (p.state === "granted") {
+            setBlocked(true);
+            setBlockReason("Screen capture detected. Please stop screen sharing to continue.");
+          }
+        };
+        check();
+        p.onchange = check;
+      } catch { /* not supported */ }
+    };
+    checkCapture();
+
+    // === 7. Block PiP ===
     const onPiP = () => {
       if (document.pictureInPictureElement) {
         document.exitPictureInPicture().catch(() => {});
       }
     };
 
-    // === 7. Disable text selection ===
+    // === 8. Disable text selection ===
     document.body.style.userSelect = "none";
     document.body.style.webkitUserSelect = "none";
 
-    // === 8. DevTools detection (production only) ===
-    let devtoolsOpen = false;
+    // === 9. DevTools detection (production) ===
+    let devtoolsDetected = false;
     const detectDevTools = () => {
-      const start = performance.now();
-      // eslint-disable-next-line no-debugger
-      debugger;
-      if (performance.now() - start > 100) {
-        if (!devtoolsOpen) {
-          devtoolsOpen = true;
-          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#704180;font-size:18px;">Developer tools are not allowed on this platform.</div>';
+      const threshold = 160;
+      const widthDiff = window.outerWidth - window.innerWidth > threshold;
+      const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      if (widthDiff || heightDiff) {
+        if (!devtoolsDetected) {
+          devtoolsDetected = true;
+          setBlocked(true);
+          setBlockReason("Developer tools are not allowed on this platform.");
         }
       } else {
-        devtoolsOpen = false;
+        devtoolsDetected = false;
       }
     };
 
+    // === 10. Watermark overlay (deters recording — visible user identity) ===
+    if (overlayRef.current) {
+      const ts = new Date().toISOString().slice(0, 16);
+      overlayRef.current.textContent = Array(50).fill(`ZenomiLearn • ${ts}`).join("   ");
+    }
+
     document.addEventListener("contextmenu", noContext);
     document.addEventListener("keydown", noKeys);
-    document.addEventListener("dragstart", noDrag);
-    document.addEventListener("copy", noCopy);
-    document.addEventListener("cut", noCopy);
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener("dragstart", prevent);
+    document.addEventListener("copy", prevent);
+    document.addEventListener("cut", prevent);
+    document.addEventListener("visibilitychange", onVisibility);
     document.addEventListener("enterpictureinpicture", onPiP);
+    window.addEventListener("blur", onWindowBlur);
+    window.addEventListener("focus", onWindowFocus);
 
     let interval: NodeJS.Timeout | null = null;
     if (process.env.NODE_ENV === "production") {
-      interval = setInterval(detectDevTools, 3000);
+      interval = setInterval(detectDevTools, 1000);
     }
 
     return () => {
       document.removeEventListener("contextmenu", noContext);
       document.removeEventListener("keydown", noKeys);
-      document.removeEventListener("dragstart", noDrag);
-      document.removeEventListener("copy", noCopy);
-      document.removeEventListener("cut", noCopy);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      document.removeEventListener("dragstart", prevent);
+      document.removeEventListener("copy", prevent);
+      document.removeEventListener("cut", prevent);
+      document.removeEventListener("visibilitychange", onVisibility);
       document.removeEventListener("enterpictureinpicture", onPiP);
+      window.removeEventListener("blur", onWindowBlur);
+      window.removeEventListener("focus", onWindowFocus);
       document.body.style.userSelect = "";
       document.body.style.webkitUserSelect = "";
       document.body.style.filter = "";
@@ -117,13 +133,29 @@ export default function ContentProtection() {
 
   if (blocked) {
     return (
-      <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center p-4">
-        <p className="text-[#704180] text-lg text-center font-medium">
-          Screen recording detected. Please stop recording to continue.
+      <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center p-6">
+        <p className="text-[#704180] text-lg text-center font-medium max-w-sm">
+          {blockReason}
         </p>
       </div>
     );
   }
 
-  return null;
+  return (
+    <div
+      ref={overlayRef}
+      aria-hidden="true"
+      className="fixed inset-0 z-[9998] pointer-events-none select-none overflow-hidden whitespace-nowrap leading-[3] text-[11px] tracking-widest break-all"
+      style={{
+        color: "rgba(112,65,128,0.03)",
+        transform: "rotate(-25deg) scale(1.5)",
+        transformOrigin: "center center",
+      }}
+    />
+  );
+}
+
+function flashBlur() {
+  document.body.style.filter = "blur(30px)";
+  setTimeout(() => { document.body.style.filter = ""; }, 2000);
 }

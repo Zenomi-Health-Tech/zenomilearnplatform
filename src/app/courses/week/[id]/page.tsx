@@ -53,7 +53,7 @@ export default function WeekPlayerPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
+      <div className="flex items-center justify-center bg-white" style={{ height: "100dvh" }}>
         <p className="text-gray-500">Loading...</p>
       </div>
     );
@@ -61,7 +61,7 @@ export default function WeekPlayerPage() {
 
   if (!entryPoint) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-white gap-4">
+      <div className="flex flex-col items-center justify-center bg-white gap-4 px-4 text-center" style={{ height: "100dvh" }}>
         <p className="text-gray-600">No content uploaded for Week {weekId} yet.</p>
         <Link href="/" className="text-[#704180] hover:underline text-sm">← Back to course</Link>
       </div>
@@ -79,27 +79,26 @@ export default function WeekPlayerPage() {
   const loc = formatLocation(location);
 
   return (
-    <div className="h-screen flex flex-col bg-white">
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 border-b border-gray-200 bg-gray-50 shrink-0 gap-2 min-w-0">
+    <div className="flex flex-col bg-white" style={{ height: "100dvh" }}>
+      {/* Top bar - compact on mobile */}
+      <div className="flex items-center justify-between px-2 sm:px-4 py-1.5 sm:py-2.5 border-b border-gray-200 bg-gray-50 shrink-0 gap-2 min-w-0">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <button onClick={() => router.push("/")} className="text-xs sm:text-sm text-gray-500 hover:text-gray-800 transition-colors shrink-0">
-            ← Back
+          <button onClick={() => router.push("/")} className="text-xs text-gray-500 hover:text-gray-800 transition-colors shrink-0">
+            ←
           </button>
-          <div className="w-px h-4 bg-gray-300 shrink-0 hidden sm:block" />
           <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">
             W{weekId}: {WEEK_TITLES[weekId] || ""}
           </span>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-gray-500 shrink-0">
+        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-500 shrink-0">
           <span className={`w-2 h-2 rounded-full ${statusColor}`} />
-          <span>{statusLabel}</span>
+          <span className="hidden sm:inline">{statusLabel}</span>
           {loc && <span className="text-gray-400 hidden sm:inline">• {loc}</span>}
         </div>
       </div>
 
-      {/* SCORM iframe */}
-      <div className="flex-1">
+      {/* SCORM iframe - takes all remaining space */}
+      <div className="flex-1 min-h-0 overflow-hidden">
         <ScormPlayer
           weekId={weekId}
           entryPoint={entryPoint}

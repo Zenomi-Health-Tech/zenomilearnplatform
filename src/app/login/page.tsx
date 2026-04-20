@@ -6,8 +6,8 @@ export default function LoginPage() {
   const [isSignup, setIsSignup] = useState(false);
 
   return (
-    <div className="bg-gray-50 py-16 px-4 min-h-[calc(100vh-112px)] flex items-center justify-center">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+    <div className="bg-gray-50 py-10 sm:py-16 px-3 sm:px-4 min-h-[calc(100vh-112px)] flex items-center justify-center">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-gray-200 p-5 sm:p-8">
         <div className="text-center mb-6">
           <Link href="/" className="text-2xl font-bold">
             <span className="text-gray-900">Zenomi</span><span className="text-[#704180]">Learn</span>
