@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<manifest identifier="_qoerRWdsNJQuleTquKJ4WdxoEbxvzDWEsp-hBmW" version="1"
+<manifest identifier="ZfrhXllGasuzb6-F_YNR8T0QjcCOOYiwLHFWPL-Y" version="1"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,14 +8,14 @@
   <metadata>
     <schema>ADL SCORM</schema>
     <schemaversion>1.2</schemaversion>
-    <adlcp:location>metadata.xml</adlcp:location> 
+    <adlcp:location>metadata.xml</adlcp:location>
   </metadata>
   <organizations default="articulate_rise">
       <organization identifier="articulate_rise">
-      <title>Reset &amp; Recharge: A 6-Week Challenge to Improve Your Sleep</title>
+      <title>Nutrition Essentials: Building Healthy Habits for Teens</title>
       <item identifier="i1" identifierref="r1" isvisible="true">
-        <title>Reset &amp; Recharge: A 6-Week Challenge to Improve Your Sleep</title>
-        <adlcp:datafromlms>eyJjcHYiOiJFc3AtaEJtVyIsInJsZCI6ZmFsc2V9</adlcp:datafromlms>
+        <title>Nutrition Essentials: Building Healthy Habits for Teens</title>
+        <adlcp:datafromlms>datafromlms</adlcp:datafromlms>
       </item>
     </organization>
   </organizations>
@@ -38,35 +38,48 @@
       <file href="scormcontent/index.html" />
 
       
-        <file href="scormcontent/lib/fonts/icomoon.ttf"/>
-        <file href="scormcontent/lib/fonts/icomoon.woff"/>
-
-        <file href="scormcontent/lib/icomoon.css"/>
-        <file href="scormcontent/lib/player-0.0.11.min.js"/>
         <file href="scormcontent/lib/lzwcompress.js"/>
       
 
       <!-- FRONTEND BUNDLE ASSETS -->
-      <file href="scormcontent/lib/rise/a3bef7db.js" />
-<file href="scormcontent/lib/rise/02ed395c.css" />
-<file href="scormcontent/lib/rise/b0c125f5.js" />
-<file href="scormcontent/lib/rise/72b0e657.css" />
-<file href="scormcontent/lib/rise/a6084c2a.js" />
-<file href="scormcontent/lib/rise/254e83dc.js" />
-<file href="scormcontent/lib/rise/c82cca6a.js" />
-<file href="scormcontent/lib/rise/40b4cf18.js" />
-<file href="scormcontent/lib/rise/b2cebec4.js" />
-<file href="scormcontent/lib/rise/a607e3d7.js" />
+      <file href="scormcontent/lib/rise/5aea5b7f.js" />
+<file href="scormcontent/lib/rise/1e51cea7.css" />
+<file href="scormcontent/lib/rise/8ad9e683.js" />
+<file href="scormcontent/lib/rise/fc7a6c06.css" />
+<file href="scormcontent/lib/rise/d1bfd404.js" />
+<file href="scormcontent/lib/rise/9aede266.ttf" />
+<file href="scormcontent/lib/rise/bff47411.woff" />
+<file href="scormcontent/lib/rise/ca69a9b5.js" />
+<file href="scormcontent/lib/rise/587a1be7.js" />
+<file href="scormcontent/lib/rise/61243a87.js" />
+<file href="scormcontent/lib/rise/c62ff7a9.js" />
+<file href="scormcontent/lib/rise/3125981b.js" />
+<file href="scormcontent/lib/rise/9d1c4671.js" />
+<file href="scormcontent/lib/rise/edccf45c.js" />
+<file href="scormcontent/lib/rise/8716f7be.js" />
+<file href="scormcontent/lib/rise/d4f1495e.js" />
+<file href="scormcontent/lib/rise/f50b75a0.js" />
+<file href="scormcontent/lib/rise/64c13194.js" />
+<file href="scormcontent/lib/rise/d4534cdf.js" />
+<file href="scormcontent/lib/rise/578ab21f.js" />
+<file href="scormcontent/lib/rise/90f65467.js" />
+<file href="scormcontent/lib/rise/2d62667c.js" />
+<file href="scormcontent/lib/rise/54010a1a.js" />
+<file href="scormcontent/lib/rise/d878a260.js" />
+<file href="scormcontent/lib/rise/61c7bf33.js" />
+<file href="scormcontent/lib/rise/6a6a91e5.js" />
+<file href="scormcontent/lib/learn_dist/entry.js" />
+<file href="scormcontent/lib/learn_dist/9b1f8619.js" />
+<file href="scormcontent/lib/learn_dist/5b130552.css" />
+<file href="scormcontent/lib/learn_dist/2b367e04.js" />
 <file href="scormcontent/lib/mondrian/entry.js" />
-<file href="scormcontent/lib/mondrian/ab103845.js" />
-<file href="scormcontent/lib/mondrian/b53105c0.js" />
-<file href="scormcontent/lib/mondrian/fa52d9e7.js" />
-<file href="scormcontent/lib/mondrian/daeabcf0.js" />
-<file href="scormcontent/lib/mondrian/e6d37d36.js" />
+<file href="scormcontent/lib/mondrian/651f6318.js" />
+<file href="scormcontent/lib/mondrian/afbb5ca8.js" />
+<file href="scormcontent/lib/mondrian/8fb5c875.js" />
 <file href="scormcontent/lib/mondrian/09e37aee.js" />
 <file href="scormcontent/lib/mondrian/196251cf.js" />
 <file href="scormcontent/lib/sandbox/sandbox.html" />
-<file href="scormcontent/lib/sandbox/b8fc6988.js" />
+<file href="scormcontent/lib/sandbox/c77685df.js" />
 <file href="scormcontent/lib/sandbox/4adfab46.css" />
 
 
@@ -81,68 +94,40 @@
 <file href="scormcontent/lib/fonts/Merriweather-Bold.woff" />
 <file href="scormcontent/lib/fonts/Merriweather-Regular.woff" />
 <file href="scormcontent/lib/fonts/Merriweather-Light.woff" />
-<file href="scormcontent/lib/fonts/Inter-Medium.woff" />
-<file href="scormcontent/lib/fonts/Inter-Black.woff" />
-<file href="scormcontent/lib/fonts/Inter-Bold.woff" />
-<file href="scormcontent/lib/fonts/Inter-Regular.woff" />
-<file href="scormcontent/lib/fonts/Inter-Light.woff" />
 <file href="scormcontent/assets/small.png" />
-<file href="scormcontent/assets/bTPZVb/small.png" />
-<file href="scormcontent/assets/lIBrn6HvwFsdRRUL.png" />
-<file href="scormcontent/assets/lgFfwQ/noprocess_Header5.png" />
-<file href="scormcontent/assets/SF-23-022_SleepCycle_Pie_Mobile-895x1024.png" />
-<file href="scormcontent/assets/circadian-rhythm.jpg" />
-<file href="scormcontent/assets/Sleep%20Chart.png" />
-<file href="scormcontent/assets/Sleep%20Guide.pdf" />
-<file href="scormcontent/assets/quote_background.jpg" />
-<file href="scormcontent/assets/stock-image.png" />
-<file href="scormcontent/assets/stock-image.jpg" />
-<file href="scormcontent/assets/noprocess_Header11.png" />
-<file href="scormcontent/assets/iUWsmL/mountains.jpg" />
-<file href="scormcontent/assets/nC2i7D/stock-image.jpg" />
-<file href="scormcontent/assets/Full_sequence_400x400.gif" />
-<file href="scormcontent/assets/relax-in-the-forest-background-music-for-video-9145.mp3" />
-<file href="scormcontent/assets/6iLMX4/noprocess_Header5.png" />
-<file href="scormcontent/assets/noprocess_Header6.png" />
-<file href="scormcontent/assets/4y1qL9/stock-image.jpg" />
-<file href="scormcontent/assets/8hD22y/stock-image.jpg" />
-<file href="scormcontent/assets/Eng39e/noprocess_Header8.jpg" />
-<file href="scormcontent/assets/Caffeine%20Guide.png" />
-<file href="scormcontent/assets/Sleep%20Guide%20%281%29.pdf" />
-<file href="scormcontent/assets/S6OwJg/stock-image.jpg" />
-<file href="scormcontent/assets/NjxDcy/noprocess_Header6.png" />
-<file href="scormcontent/assets/y3g3Ge/stock-image.jpg" />
-<file href="scormcontent/assets/noprocess_bankJar.jpg" />
-<file href="scormcontent/assets/zfqwwx/stock-image.jpg" />
-<file href="scormcontent/assets/q_49aG/noprocess_Header5.png" />
-<file href="scormcontent/assets/Sleep%20Guide.png" />
-<file href="scormcontent/assets/Sleep%20Guide%20%283%29.pdf" />
-<file href="scormcontent/assets/Medetation.png" />
-<file href="scormcontent/assets/noprocess_Header12.png" />
-<file href="scormcontent/assets/ZpJ83q/noprocess_Header8.jpg" />
-<file href="scormcontent/assets/sleep.jpg" />
-<file href="scormcontent/assets/move.jpg" />
-<file href="scormcontent/assets/eat.jpg" />
-<file href="scormcontent/assets/p-qfc2/stock-image.jpg" />
-<file href="scormcontent/assets/rhRFmW/noprocess_Header11.png" />
-<file href="scormcontent/assets/IPSFjq/stock-image.jpg" />
-<file href="scormcontent/assets/iCatzp/stock-image.jpg" />
-<file href="scormcontent/assets/JsbBnh/stock-image.jpg" />
-<file href="scormcontent/assets/eb90f86aaa08d0a6b1db2c80b4041ddb956a7942_hq.jpg" />
-<file href="scormcontent/assets/How_do_you_feel.jpg" />
-<file href="scormcontent/assets/tODLJc/noprocess_Header8.jpg" />
-<file href="scormcontent/assets/Pi7_image.jpg" />
-<file href="scormcontent/assets/noprocess_Header13.png" />
-<file href="scormcontent/assets/work.jpg" />
-<file href="scormcontent/assets/relationships.jpg" />
-<file href="scormcontent/assets/Health.jpg" />
-<file href="scormcontent/assets/Leisure.jpg" />
-<file href="scormcontent/assets/iovO7w/stock-image.jpg" />
-<file href="scormcontent/assets/fWy2oB/stock-image.jpg" />
-<file href="scormcontent/assets/wp5I4_/noprocess_Header6.png" />
-<file href="scormcontent/assets/noprocess_Header7.png" />
-
-      <file href="scormcontent/locales/en.js" />
+<file href="scormcontent/assets/xAEY7H/small.png" />
+<file href="scormcontent/assets/oakQlT2yVx3N8JZU.jpg" />
+<file href="scormcontent/assets/ai-generated-image.jpg" />
+<file href="scormcontent/assets/74e3199d-7a08-4d78-84a6-eb.mp3" />
+<file href="scormcontent/assets/cb6b6ce8-9548-4bf2-904f-70.mp3" />
+<file href="scormcontent/assets/rZehsV/ai-generated-image.jpg" />
+<file href="scormcontent/assets/3fa4516d-a67c-4491-8bba-a0.mp3" />
+<file href="scormcontent/assets/WvQtsd/ai-generated-image.jpg" />
+<file href="scormcontent/assets/TdClrr/ai-generated-image.jpg" />
+<file href="scormcontent/assets/b0910e68-9a29-4744-bff7-31.mp3" />
+<file href="scormcontent/assets/Y1jmK_/ai-generated-image.jpg" />
+<file href="scormcontent/assets/yQFA0N/ai-generated-image.jpg" />
+<file href="scormcontent/assets/OopfWZ/ai-generated-image.jpg" />
+<file href="scormcontent/assets/UArUvG/ai-generated-image.jpg" />
+<file href="scormcontent/assets/c6c1335d-7ea8-478e-b1e8-6f.mp3" />
+<file href="scormcontent/assets/_sVbhi/ai-generated-image.jpg" />
+<file href="scormcontent/assets/v9OKV6/ai-generated-image.jpg" />
+<file href="scormcontent/assets/AGP3DV/ai-generated-image.jpg" />
+<file href="scormcontent/assets/JRWeUX/ai-generated-image.jpg" />
+<file href="scormcontent/assets/cb_gbO/ai-generated-image.jpg" />
+<file href="scormcontent/assets/LO5cXf/ai-generated-image.jpg" />
+<file href="scormcontent/assets/oVYi0e/ai-generated-image.jpg" />
+<file href="scormcontent/assets/ilHcnd/ai-generated-image.jpg" />
+<file href="scormcontent/assets/pTpti6/ai-generated-image.jpg" />
+<file href="scormcontent/assets/frTukh/ai-generated-image.jpg" />
+<file href="scormcontent/assets/tmE1RW/ai-generated-image.jpg" />
+<file href="scormcontent/assets/QcgfQ3/ai-generated-image.jpg" />
+<file href="scormcontent/assets/Jp6B59/ai-generated-image.jpg" />
+<file href="scormcontent/assets/9b4c9d0c-1525-45e7-b185-67.mp3" />
+<file href="scormcontent/assets/MN-QKC/ai-generated-image.jpg" />
+<file href="scormcontent/assets/6fa73dfc-039f-4134-8a70-94.mp3" />
+<file href="scormcontent/assets/k89yOS/ai-generated-image.jpg" />
+<file href="scormcontent/assets/6756b701-b743-4b4c-a0c2-cf.mp3" />
 
     </resource>
   </resources>

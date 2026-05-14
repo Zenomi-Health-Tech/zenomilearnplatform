@@ -1,12 +1,12 @@
+var COURSE_PACKAGE_VERSION = "LHFWPL-Y";
+var RESET_LEARNER_DATA = false;
+
 function isTrue(val) {
   return val && String(val).toLowerCase() === 'true';
 }
 
 function verifySuspendDataVersion(maxAttempts) {
   var commitDataAndBook;
-  var launchData;
-  var manifestCPV;
-  var resetFlag;
   var sentBookCheck;
   var sentDataCheck;
   var suspendData = GetDataChunk();
@@ -23,26 +23,16 @@ function verifySuspendDataVersion(maxAttempts) {
   }
 
   try {
-    launchData = JSON.parse(atob(GetLaunchData()));
-  } catch (e) {
-    WriteToDebug('WARNING: Issue with obtaining manifest launch data. Version reset behavior disabled.');
-    return;
-  }
-
-  try {
     suspendData = JSON.parse(suspendData);
+    suspendDataCPV = suspendData.cpv;
   } catch (e) {
-    WriteToDebug('WARNING: Unable to parse suspend data. Version reset behavior disabled.');
+    WriteToDebug('WARNING: Issue parsing suspend data for CPV. Version reset behavior disabled.');
     return;
   }
 
-  manifestCPV = launchData.cpv;
-  resetFlag = launchData.rld;
-  suspendDataCPV = suspendData.cpv;
-
-  if (suspendDataCPV !== manifestCPV) {
-    WriteToDebug('WARNING: Suspend data version mismatch against manifest version.');
-    if (resetFlag) {
+  if (suspendDataCPV !== COURSE_PACKAGE_VERSION) {
+    WriteToDebug('WARNING: Suspend data version mismatch against package version.');
+    if (RESET_LEARNER_DATA) {
 
       if (REVIEW_MODE_IS_READ_ONLY && GetLessonMode() === 3) {
         WriteToDebug('WARNING: Course is in review mode. Unable to clear suspend and bookmarking data!');
@@ -92,5 +82,5 @@ function commitHeartbeat() {
 }
 
 function getCourseTitle() {
-  return 'Reset &amp; Recharge: A 6-Week Challenge to Improve Your Sleep'
+  return 'Nutrition Essentials: Building Healthy Habits for Teens'
 }
