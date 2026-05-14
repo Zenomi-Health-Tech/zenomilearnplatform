@@ -5,7 +5,7 @@ import ScormPlayer from "@/components/ScormPlayer";
 import Link from "next/link";
 
 const WEEK_TITLES: Record<string, string> = {
-  "1": "Sleep Hygiene & Nutrition",
+  "1": "Nutrition Essentials: Building Healthy Habits for Teens",
   "2": "What Are Emotions?",
   "3": "What is Empathy?",
   "4": "Self-Awareness",
