@@ -4,10 +4,10 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 const weeks = [
   {
-    week: 1, title: "Sleep Hygiene & Nutrition", color: "bg-[#704180]", colorHex: "#704180",
+    week: 1, title: "Nutrition Essentials: Building Healthy Habits for Teens", color: "bg-[#704180]", colorHex: "#704180",
     bullets: [
-      "Build a foundation for emotional well-being through better sleep and mindful nutrition.",
-      "Learn practical habits for restful nights and fueling your body and mind.",
+      "Learn the fundamentals of nutrition and how food choices impact your energy and mood.",
+      "Build practical healthy eating habits that fit your lifestyle as a teen.",
     ],
   },
   {
