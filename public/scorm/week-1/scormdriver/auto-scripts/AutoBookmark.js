@@ -1,14 +1,3 @@
-function SetBookmark() {
-    var SD = window.parent,
-        loc = window.location.href
-    ;
-
-    SD.SetBookmark(
-        loc.substring(loc.toLowerCase().lastIndexOf("/scormcontent/") + 14, loc.length),
-        document.title
-    );
-    SD.CommitData();
-}
-
-//Automatically set a bookmark for this page.
-SetBookmark();
+// version: 7.12.0.a.1.5.0
+// sha: 762cd4305282c6e9a675329d2c5b8624a225ecdd
+function SetBookmark(){var o=window.parent,t=window.location.href;o.SetBookmark(t.substring(t.toLowerCase().lastIndexOf("/scormcontent/")+14,t.length),document.title),o.CommitData()}SetBookmark();
