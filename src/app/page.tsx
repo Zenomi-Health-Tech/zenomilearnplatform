@@ -39,17 +39,10 @@ const weeks = [
     ],
   },
   {
-    week: 6, title: "Resiliency for Teens - Part 1", color: "bg-[#c4873a]", colorHex: "#c4873a",
+    week: 6, title: "Resiliency for Teens", color: "bg-[#c4873a]", colorHex: "#c4873a",
     bullets: [
       "Learn what it means to be resilient and understand its importance in our lives.",
-      "Identify and apply strategies to navigate situations where building resiliency is key.",
-    ],
-  },
-  {
-    week: 7, title: "Resiliency for Teens - Part 2", color: "bg-[#704180]", colorHex: "#704180",
-    bullets: [
-      "Reframe negative thoughts and understand the differences between a growth and fixed mindset.",
-      "Build positive relationships and create a personalized Resiliency Toolkit.",
+      "Reframe negative thoughts, build positive relationships, and create a personalized Resiliency Toolkit.",
     ],
   },
 ];
