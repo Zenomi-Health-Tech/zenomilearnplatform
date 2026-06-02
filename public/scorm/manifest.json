@@ -5,6 +5,7 @@
     "3": { "title": "What is Empathy?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
     "4": { "title": "Self-Awareness", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
     "5": { "title": "Self-Regulation", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
-    "6": { "title": "Building Resilience", "uploaded": true, "entryPoint": "index.html", "uploadedAt": "2026-04-18T14:25:00.000Z" }
+    "6": { "title": "Resiliency for Teens - Part 1", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-06-02T16:20:00.000Z" },
+    "7": { "title": "Resiliency for Teens - Part 2", "uploaded": true, "entryPoint": "index.html", "uploadedAt": "2026-06-02T16:25:00.000Z" }
   }
 }

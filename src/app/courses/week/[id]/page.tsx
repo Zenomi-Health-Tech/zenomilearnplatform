@@ -10,7 +10,8 @@ const WEEK_TITLES: Record<string, string> = {
   "3": "What is Empathy?",
   "4": "Self-Awareness",
   "5": "Self-Regulation",
-  "6": "Building Resilience",
+  "6": "Resiliency for Teens - Part 1",
+  "7": "Resiliency for Teens - Part 2",
 };
 
 function formatLocation(loc: string): string {
