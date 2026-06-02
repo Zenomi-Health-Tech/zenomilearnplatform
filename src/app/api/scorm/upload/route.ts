@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file") as File | null;
     const week = formData.get("week") as string | null;
 
-    if (!file || !week || !/^[1-6]$/.test(week)) {
-      return NextResponse.json({ error: "Missing file or invalid week (1-6)" }, { status: 400 });
+    if (!file || !week || !/^[1-7]$/.test(week)) {
+      return NextResponse.json({ error: "Missing file or invalid week (1-7)" }, { status: 400 });
     }
 
     const weekDir = path.join(SCORM_DIR, `week-${week}`);
