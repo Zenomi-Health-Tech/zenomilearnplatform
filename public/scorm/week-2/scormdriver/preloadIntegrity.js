@@ -1,12 +1,12 @@
-var COURSE_PACKAGE_VERSION = "QI0SaEoh";
-var RESET_LEARNER_DATA = false;
-
 function isTrue(val) {
   return val && String(val).toLowerCase() === 'true';
 }
 
 function verifySuspendDataVersion(maxAttempts) {
   var commitDataAndBook;
+  var launchData;
+  var manifestCPV;
+  var resetFlag;
   var sentBookCheck;
   var sentDataCheck;
   var suspendData = GetDataChunk();
@@ -23,16 +23,26 @@ function verifySuspendDataVersion(maxAttempts) {
   }
 
   try {
-    suspendData = JSON.parse(suspendData);
-    suspendDataCPV = suspendData.cpv;
+    launchData = JSON.parse(atob(GetLaunchData()));
   } catch (e) {
-    WriteToDebug('WARNING: Issue parsing suspend data for CPV. Version reset behavior disabled.');
+    WriteToDebug('WARNING: Issue with obtaining manifest launch data. Version reset behavior disabled.');
     return;
   }
 
-  if (suspendDataCPV !== COURSE_PACKAGE_VERSION) {
-    WriteToDebug('WARNING: Suspend data version mismatch against package version.');
-    if (RESET_LEARNER_DATA) {
+  try {
+    suspendData = JSON.parse(suspendData);
+  } catch (e) {
+    WriteToDebug('WARNING: Unable to parse suspend data. Version reset behavior disabled.');
+    return;
+  }
+
+  manifestCPV = launchData.cpv;
+  resetFlag = launchData.rld;
+  suspendDataCPV = suspendData.cpv;
+
+  if (suspendDataCPV !== manifestCPV) {
+    WriteToDebug('WARNING: Suspend data version mismatch against manifest version.');
+    if (resetFlag) {
 
       if (REVIEW_MODE_IS_READ_ONLY && GetLessonMode() === 3) {
         WriteToDebug('WARNING: Course is in review mode. Unable to clear suspend and bookmarking data!');
@@ -82,5 +92,5 @@ function commitHeartbeat() {
 }
 
 function getCourseTitle() {
-  return 'Introducing Emotions'
+  return 'Reset &amp; Recharge: A 6-Week Challenge to Improve Your Sleep'
 }

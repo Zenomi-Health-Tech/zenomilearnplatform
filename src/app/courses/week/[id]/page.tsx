@@ -5,12 +5,14 @@ import ScormPlayer from "@/components/ScormPlayer";
 import Link from "next/link";
 
 const WEEK_TITLES: Record<string, string> = {
-  "1": "Nutrition Essentials: Building Healthy Habits for Teens",
-  "2": "What Are Emotions?",
-  "3": "What is Empathy?",
-  "4": "Self-Awareness",
-  "5": "Self-Regulation",
-  "6": "Resiliency for Teens",
+  "1": "Sleep Smarter: Real-World Strategies for Teen Nights",
+  "2": "Reset & Recharge: A 6-Week Challenge to Improve Your Sleep",
+  "3": "Nutrition Essentials: Building Healthy Habits for Teens",
+  "4": "What Are Emotions?",
+  "5": "What is Empathy?",
+  "6": "Self-Awareness",
+  "7": "Self-Regulation",
+  "8": "Resiliency for Teens",
 };
 
 function formatLocation(loc: string): string {

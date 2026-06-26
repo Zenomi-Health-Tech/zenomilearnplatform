@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<manifest identifier="CYHEJKqrOXBEbUttsZhEHzQVGAzCuGZ07_cp63uB" version="1"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                      http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+    <adlcp:location>metadata.xml</adlcp:location>
+  </metadata>
+  <organizations default="articulate_rise">
+      <organization identifier="articulate_rise">
+      <title>Self Regulation for Teens</title>
+      <item identifier="i1" identifierref="r1" isvisible="true">
+        <title>Self Regulation for Teens</title>
+        <adlcp:datafromlms>eyJjcHYiOiI3X2NwNjN1QiIsInJsZCI6ZmFsc2V9</adlcp:datafromlms>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="r1" type="webcontent" adlcp:scormtype="sco" href="scormdriver/indexAPI.html">
+      <!-- SCORMDRIVER STUFF -->
+      <file href="scormdriver/indexAPI.html" />
+      <file href="scormdriver/preloadIntegrity.js" />
+      <file href="scormdriver/driverOptions.js" />
+      <file href="scormdriver/AICCComm.html" />
+      <file href="scormdriver/auto-scripts/AutoBookmark.js" />
+      <file href="scormdriver/auto-scripts/AutoCompleteSCO.js" />
+      <file href="scormdriver/auto-scripts/CourseExit.js" />
+      <file href="scormdriver/blank.html" />
+      <file href="scormdriver/goodbye.html" />
+      <file href="scormdriver/scormdriver.js" />
+      <file href="scormdriver/browsersniff.js" />
+
+      <!-- RUNTIME COMMON STUFF -->
+      <file href="scormcontent/index.html" />
+
+      
+        <file href="scormcontent/lib/fonts/icomoon.ttf"/>
+        <file href="scormcontent/lib/fonts/icomoon.woff"/>
+
+        <file href="scormcontent/lib/icomoon.css"/>
+        <file href="scormcontent/lib/player-0.0.11.min.js"/>
+        <file href="scormcontent/lib/lzwcompress.js"/>
+      
+
+      <!-- FRONTEND BUNDLE ASSETS -->
+      <file href="scormcontent/lib/rise/de1f130a.js" />
+<file href="scormcontent/lib/rise/472f74c2.css" />
+<file href="scormcontent/lib/rise/e34bf6bb.js" />
+<file href="scormcontent/lib/rise/ed54d4be.css" />
+<file href="scormcontent/lib/rise/a09e78d0.js" />
+<file href="scormcontent/lib/rise/92e0d0dc.js" />
+<file href="scormcontent/lib/rise/daebe3b0.js" />
+<file href="scormcontent/lib/mondrian/entry.js" />
+<file href="scormcontent/lib/mondrian/cee15070.js" />
+<file href="scormcontent/lib/mondrian/493e3567.js" />
+<file href="scormcontent/lib/mondrian/08509366.js" />
+<file href="scormcontent/lib/mondrian/c16e7dd3.js" />
+<file href="scormcontent/lib/mondrian/d7134136.js" />
+<file href="scormcontent/lib/mondrian/56ed4fc1.js" />
+<file href="scormcontent/lib/mondrian/617890ed.js" />
+<file href="scormcontent/lib/mondrian/b1be0899.js" />
+
+
+      <!-- RUNTIME CONTENT STUFF -->
+      <file href="scormcontent/lib/fonts/Lato-Black.woff" />
+<file href="scormcontent/lib/fonts/Lato-Italic.woff" />
+<file href="scormcontent/lib/fonts/Lato-Bold.woff" />
+<file href="scormcontent/lib/fonts/Lato-Regular.woff" />
+<file href="scormcontent/lib/fonts/Lato-Light.woff" />
+<file href="scormcontent/lib/fonts/Merriweather-Black.woff" />
+<file href="scormcontent/lib/fonts/Merriweather-Italic.woff" />
+<file href="scormcontent/lib/fonts/Merriweather-Bold.woff" />
+<file href="scormcontent/lib/fonts/Merriweather-Regular.woff" />
+<file href="scormcontent/lib/fonts/Merriweather-Light.woff" />
+<file href="scormcontent/assets/small.png" />
+<file href="scormcontent/assets/WmI0BCWRF1bH2UFz.jpg" />
+<file href="scormcontent/assets/hsZkav/stock-image.jpg" />
+<file href="scormcontent/assets/Q2IxcC/stock-image.jpg" />
+<file href="scormcontent/assets/ZJs8mQ/quote_background.jpg" />
+<file href="scormcontent/assets/stock-image.png" />
+<file href="scormcontent/assets/X-2xtc/stock-image.png" />
+<file href="scormcontent/assets/sCywOW/stock-image.jpg" />
+<file href="scormcontent/assets/tF4IKJ/stock-image.jpg" />
+<file href="scormcontent/assets/Self%20Regulation%20Journal.pdf" />
+<file href="scormcontent/assets/GQCm7w/stock-image.png" />
+<file href="scormcontent/assets/r-CiBq/stock-image.jpg" />
+<file href="scormcontent/assets/2WgW6g/stock-image.jpg" />
+<file href="scormcontent/assets/SMART%20Goals%20Worksheet.pdf" />
+<file href="scormcontent/assets/wQ7b5C/stock-image.jpg" />
+<file href="scormcontent/assets/P-hdvM/stock-image.png" />
+<file href="scormcontent/assets/8REhaz/stock-image.jpg" />
+<file href="scormcontent/assets/f3j6hT/stock-image.jpg" />
+<file href="scormcontent/assets/Emotion%20Tracking%20Journaling.pdf" />
+<file href="scormcontent/assets/kKeNCx/mountains.jpg" />
+<file href="scormcontent/assets/Gratitude%20Challenge.pdf" />
+<file href="scormcontent/assets/ypC-nX/stock-image.jpg" />
+<file href="scormcontent/assets/5lKPsT/stock-image.png" />
+<file href="scormcontent/assets/Z3kDt9Rel576UbZM_114_full.png" />
+<file href="scormcontent/assets/z0CftG-GRD9Qh6dz_147_full.png" />
+<file href="scormcontent/assets/IU0lScK-joYnIo0n_355_full.png" />
+<file href="scormcontent/assets/LO9chp3XqrxVGh-H_182_full.png" />
+<file href="scormcontent/assets/A9aB_m9PTdbi5yco_109_full.png" />
+<file href="scormcontent/assets/nWt49QKoIF4wr0kV_166_full.png" />
+<file href="scormcontent/assets/Q0QQfZ0wrXqYDOpj_192_full.png" />
+<file href="scormcontent/assets/CuMZ8CttawRV25WC_107_full.png" />
+<file href="scormcontent/assets/EuOQRzN9vq56QF4U_163_full.png" />
+<file href="scormcontent/assets/IFDyNiYFHqbzSZzj_203_full.png" />
+<file href="scormcontent/assets/kkeWDjsAP1BtqANq_180_full.png" />
+<file href="scormcontent/assets/zfcYaSf_rvp0ut49_224_full.png" />
+<file href="scormcontent/assets/JTxkLOeGDP69kE6e_226_full.png" />
+<file href="scormcontent/assets/g1Wgf4e8rY1czPks_190_full.png" />
+<file href="scormcontent/assets/X-8DHzPxJ8iIPQW7_218_full.png" />
+<file href="scormcontent/assets/lDsmsMFJLgOLi70o_185_full.png" />
+<file href="scormcontent/assets/yWw_rMo8XWzdmM5u_332_full.png" />
+<file href="scormcontent/assets/2HhD-Pzk-ed-bXNp_111_full.png" />
+<file href="scormcontent/assets/QDtOSysbnMu7k2YM_113_full.png" />
+<file href="scormcontent/assets/MxNTMRuezQtfc0m1_117_full.png" />
+
+      <file href="scormcontent/locales/und.js" />
+
+    </resource>
+  </resources>
+</manifest>

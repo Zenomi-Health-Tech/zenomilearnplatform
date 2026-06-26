@@ -1,4 +1,4 @@
-var COURSE_PACKAGE_VERSION = "LHFWPL-Y";
+var COURSE_PACKAGE_VERSION = "1oJYVAdo";
 var RESET_LEARNER_DATA = false;
 
 function isTrue(val) {
@@ -82,5 +82,5 @@ function commitHeartbeat() {
 }
 
 function getCourseTitle() {
-  return 'Nutrition Essentials: Building Healthy Habits for Teens'
+  return 'Sleep Smarter: Real-World Strategies for Teen Nights'
 }
