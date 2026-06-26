@@ -111,7 +111,7 @@ function formatTime(t: string): string {
   const h = parseInt(m[1]), min = parseInt(m[2]);
   if (h > 0) return `${h}h ${min}m`;
   if (min > 0) return `${min}m`;
-  return "<1m";
+  return "< 1m";
 }
 
 function useReveal(): RefObject<HTMLDivElement | null> {
@@ -213,7 +213,10 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
                   <span className="text-[#704180] font-medium">{100 - prog.percentage}% left</span>
                 )}
                 {prog && formatTime(prog.totalTime) && (
-                  <span>⏱ {formatTime(prog.totalTime)}</span>
+                  <span className="flex items-center gap-1">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {formatTime(prog.totalTime)}
+                  </span>
                 )}
                 {isCompleted && (
                   <span className="text-[#2d8a5e] font-medium">Complete ✓</span>
@@ -240,7 +243,7 @@ export default function Home() {
 
   useEffect(() => {
     const p: Record<number, WeekProgress | null> = {};
-    for (let i = 1; i <= 6; i++) p[i] = parseProgress(i);
+    for (let i = 1; i <= 8; i++) p[i] = parseProgress(i);
     setProgressMap(p);
   }, []);
 
