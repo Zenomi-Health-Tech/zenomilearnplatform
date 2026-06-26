@@ -4,45 +4,59 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 const weeks = [
   {
-    week: 1, title: "Sleep Hygiene & Nutrition", color: "bg-[#704180]", colorHex: "#704180",
+    week: 1, title: "Sleep Smarter: Real-World Strategies for Teen Nights", color: "bg-[#3d6b8b]", colorHex: "#3d6b8b",
     bullets: [
-      "Build a foundation for emotional well-being through better sleep and mindful nutrition.",
-      "Learn practical habits for restful nights and fueling your body and mind.",
+      "Discover evidence-based strategies to improve sleep quality and establish healthy nighttime routines.",
+      "Learn how sleep impacts mood, focus, and overall teen wellbeing.",
     ],
   },
   {
-    week: 2, title: "What Are Emotions?", color: "bg-[#3d8b8b]", colorHex: "#3d8b8b",
+    week: 2, title: "Reset & Recharge: A 6-Week Challenge to Improve Your Sleep", color: "bg-[#4a7a9e]", colorHex: "#4a7a9e",
+    bullets: [
+      "Take on a structured 6-week challenge designed to reset your sleep patterns.",
+      "Build lasting habits that help you wake up refreshed and ready to take on the day.",
+    ],
+  },
+  {
+    week: 3, title: "Nutrition Essentials: Building Healthy Habits for Teens", color: "bg-[#704180]", colorHex: "#704180",
+    bullets: [
+      "Learn the fundamentals of nutrition and how food choices impact your energy and mood.",
+      "Build practical healthy eating habits that fit your lifestyle as a teen.",
+    ],
+  },
+  {
+    week: 4, title: "What Are Emotions?", color: "bg-[#3d8b8b]", colorHex: "#3d8b8b",
     bullets: [
       "Understand the basics of emotions through five bite-sized micro lessons.",
       "Learn to recognize, name, and understand what emotions really are and why we have them.",
     ],
   },
   {
-    week: 3, title: "What is Empathy?", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
+    week: 5, title: "What is Empathy?", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
     bullets: [
       "Discover the power of empathy—understanding and sharing the feelings of others.",
       "Practice perspective-taking and learn how empathy strengthens relationships.",
     ],
   },
   {
-    week: 4, title: "Self-Awareness", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
+    week: 6, title: "Self-Awareness", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
     bullets: [
       "Develop a deeper understanding of yourself—your thoughts, feelings, and behaviors.",
       "Learn to recognize patterns and understand your unique emotional landscape.",
     ],
   },
   {
-    week: 5, title: "Self-Regulation", color: "bg-[#c46b7c]", colorHex: "#c46b7c",
+    week: 7, title: "Self-Regulation", color: "bg-[#c46b7c]", colorHex: "#c46b7c",
     bullets: [
       "Master techniques to manage your emotions and impulses effectively.",
       "Build a toolkit of strategies to calm down, think clearly, and respond thoughtfully.",
     ],
   },
   {
-    week: 6, title: "Building Resilience", color: "bg-[#c4873a]", colorHex: "#c4873a",
+    week: 8, title: "Resiliency for Teens", color: "bg-[#c4873a]", colorHex: "#c4873a",
     bullets: [
-      "Strengthen your ability to bounce back from challenges.",
-      "Create a personal plan for handling stress, setbacks, and growing stronger through adversity.",
+      "Learn what it means to be resilient and understand its importance in our lives.",
+      "Reframe negative thoughts, build positive relationships, and create a personalized Resiliency Toolkit.",
     ],
   },
 ];
@@ -65,30 +79,33 @@ function parseProgress(weekId: number): WeekProgress | null {
     const suspendData = d["cmi.suspend_data"] || "";
     const totalTime = d["cmi.core.total_time"] || "0000:00:00.00";
 
-    // Try to extract progress percentage from suspend_data
     let percentage = 0;
     if (status === "completed" || status === "passed") {
       percentage = 100;
     } else if (suspendData) {
       try {
-        // Articulate Rise stores progress in suspend_data
         const sd = JSON.parse(suspendData);
         if (sd.progress !== undefined) percentage = Math.round(sd.progress * 100);
         else if (sd.v !== undefined) percentage = Math.round((sd.v / 100) * 100);
       } catch {
-        // If not JSON, estimate from location
         if (location) {
           const loc = parseInt(location);
           if (!isNaN(loc)) percentage = Math.min(Math.round((loc / 20) * 100), 95);
         }
       }
-      if (percentage === 0 && status === "incomplete") percentage = 10;
+      if (percentage === 0 && status === "incomplete") percentage = 5;
     } else if (status === "incomplete") {
-      percentage = 10;
+      percentage = 5;
     }
 
     return { status, location, percentage, totalTime };
   } catch { return null; }
+}
+
+function loadAllProgress(): Record<number, WeekProgress | null> {
+  const p: Record<number, WeekProgress | null> = {};
+  for (let i = 1; i <= 8; i++) p[i] = parseProgress(i);
+  return p;
 }
 
 function formatTime(t: string): string {
@@ -97,7 +114,7 @@ function formatTime(t: string): string {
   const h = parseInt(m[1]), min = parseInt(m[2]);
   if (h > 0) return `${h}h ${min}m`;
   if (min > 0) return `${min}m`;
-  return "<1m";
+  return "< 1m";
 }
 
 function useReveal(): RefObject<HTMLDivElement | null> {
@@ -115,6 +132,90 @@ function useReveal(): RefObject<HTMLDivElement | null> {
   return ref;
 }
 
+// Clock icon SVG
+function ClockIcon() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+}
+
+// Pin icon SVG (replaces 📍)
+function PinIcon() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  );
+}
+
+function ContinueBanner({
+  resumeWeek,
+  resumeProg,
+  completedCount,
+  totalWeeks,
+}: {
+  resumeWeek: (typeof weeks)[0];
+  resumeProg: WeekProgress | null;
+  completedCount: number;
+  totalWeeks: number;
+}) {
+  const isInProgress = resumeProg?.status === "incomplete";
+  const noneStarted = completedCount === 0 && !isInProgress;
+  const label = isInProgress ? "Continue" : noneStarted ? "Get Started" : "Next Up";
+  const overallPct = Math.round((completedCount / totalWeeks) * 100);
+
+  return (
+    <div className="mb-6 bg-white border border-[#704180]/20 rounded-2xl overflow-hidden shadow-sm">
+      {/* Overall progress bar */}
+      <div className="px-4 pt-4 pb-3 sm:px-5 sm:pt-5">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Course Progress</span>
+          <span className="text-[10px] sm:text-[11px] font-semibold text-[#704180]">
+            {completedCount} of {totalWeeks} weeks complete
+          </span>
+        </div>
+        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-[#704180] to-[#9b5db5] rounded-full transition-all duration-700"
+            style={{ width: `${overallPct}%` }}
+          />
+        </div>
+        {overallPct > 0 && (
+          <p className="mt-1 text-[10px] text-gray-400 text-right">{overallPct}% complete</p>
+        )}
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-100" />
+
+      {/* Resume / next up */}
+      <div className="px-4 py-3 sm:px-5 sm:py-4 flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#704180]">{label}</p>
+          <p className="mt-0.5 text-[13px] sm:text-[15px] font-medium text-gray-900 leading-snug line-clamp-1">
+            Week {resumeWeek.week}: {resumeWeek.title}
+          </p>
+          {isInProgress && resumeProg && (
+            <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">
+              {resumeProg.percentage}% complete · {100 - resumeProg.percentage}% left
+              {formatTime(resumeProg.totalTime) ? ` · ${formatTime(resumeProg.totalTime)} spent` : ""}
+            </p>
+          )}
+        </div>
+        <Link
+          href={`/courses/week/${resumeWeek.week}`}
+          className="shrink-0 bg-[#704180] text-white text-[11px] sm:text-[13px] font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl hover:bg-[#5c3468] transition-colors whitespace-nowrap"
+        >
+          {label} →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null }) {
   const ref = useReveal();
   const isCompleted = prog?.status === "completed" || prog?.status === "passed";
@@ -130,8 +231,6 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
 
   const cleanLocation = (() => {
     if (!prog?.location) return "";
-    // Articulate Rise uses hashes like "#/lessons/abc" — don't show raw data
-    // Only show if it's a clean simple number (real page/slide number)
     if (/^\d+$/.test(prog.location)) return `Page ${prog.location}`;
     return "";
   })();
@@ -193,13 +292,19 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
             <div className="mt-3 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-[10px] sm:text-[12px] text-gray-400 flex-wrap min-w-0">
                 {isInProgress && cleanLocation && (
-                  <span>📍 {cleanLocation}</span>
+                  <span className="flex items-center gap-0.5">
+                    <PinIcon />
+                    {cleanLocation}
+                  </span>
                 )}
                 {isInProgress && (
                   <span className="text-[#704180] font-medium">{100 - prog.percentage}% left</span>
                 )}
                 {prog && formatTime(prog.totalTime) && (
-                  <span>⏱ {formatTime(prog.totalTime)}</span>
+                  <span className="flex items-center gap-1">
+                    <ClockIcon />
+                    {formatTime(prog.totalTime)}
+                  </span>
                 )}
                 {isCompleted && (
                   <span className="text-[#2d8a5e] font-medium">Complete ✓</span>
@@ -224,18 +329,38 @@ export default function Home() {
   const [progressMap, setProgressMap] = useState<Record<number, WeekProgress | null>>({});
   const headerRef = useReveal();
 
+  const refreshProgress = () => setProgressMap(loadAllProgress());
+
   useEffect(() => {
-    const p: Record<number, WeekProgress | null> = {};
-    for (let i = 1; i <= 6; i++) p[i] = parseProgress(i);
-    setProgressMap(p);
+    refreshProgress();
+    // Refresh when user returns to this tab after studying a week
+    window.addEventListener("focus", refreshProgress);
+    return () => window.removeEventListener("focus", refreshProgress);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Determine which week to show in the "Continue" banner
+  const completedCount = weeks.filter((w) => {
+    const s = progressMap[w.week]?.status;
+    return s === "completed" || s === "passed";
+  }).length;
+
+  const firstInProgress = weeks.find((w) => progressMap[w.week]?.status === "incomplete");
+  // Prefer last-visited week over defaulting to Week 1 when nothing is in-progress
+  const lastVisitedId = (() => {
+    try { return parseInt(localStorage.getItem("scorm_last_visited_week") || ""); } catch { return NaN; }
+  })();
+  const lastVisitedWeek = !isNaN(lastVisitedId) ? weeks.find((w) => w.week === lastVisitedId) : undefined;
+  const firstNotStarted = weeks.find((w) => !progressMap[w.week]);
+  const resumeWeek = firstInProgress ?? lastVisitedWeek ?? firstNotStarted;
+  const allDone = completedCount === weeks.length;
 
   return (
     <div className="bg-[#f4f0f7]">
       {/* Header */}
       <section ref={headerRef} className="reveal header-glow pt-12 sm:pt-24 pb-10 sm:pb-16 text-center px-4">
         <p className="text-[10px] sm:text-[13px] font-semibold tracking-[0.25em] uppercase text-[#704180]">
-          6-Week Course
+          8-Week Course
         </p>
         <h1 className="mt-4 text-[26px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-[family-name:var(--font-playfair)] font-normal text-gray-900 leading-[1.15]">
           Emotional Regulation<br className="hidden sm:block" /> for Teens
@@ -255,11 +380,37 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Center: all week cards */}
-          <div className="space-y-4">
-            {weeks.map((w) => (
-              <WeekCard key={w.week} w={w} prog={progressMap[w.week]} />
-            ))}
+          {/* Center: continue banner + all week cards */}
+          <div>
+            {/* Continue / progress banner */}
+            {allDone ? (
+              <div className="mb-6 bg-white border border-[#2d8a5e]/20 rounded-2xl p-4 sm:p-5 shadow-sm">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Course Progress</span>
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-[#2d8a5e]">8 of 8 weeks complete</span>
+                </div>
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
+                  <div className="h-full bg-[#2d8a5e] rounded-full w-full" />
+                </div>
+                <p className="text-[13px] sm:text-[15px] font-medium text-gray-800">
+                  You've completed the full course. Great work! ✓
+                </p>
+              </div>
+            ) : resumeWeek ? (
+              <ContinueBanner
+                resumeWeek={resumeWeek}
+                resumeProg={progressMap[resumeWeek.week] ?? null}
+                completedCount={completedCount}
+                totalWeeks={weeks.length}
+              />
+            ) : null}
+
+            {/* Week cards */}
+            <div className="space-y-4">
+              {weeks.map((w) => (
+                <WeekCard key={w.week} w={w} prog={progressMap[w.week]} />
+              ))}
+            </div>
           </div>
 
           {/* Right image - sticky */}

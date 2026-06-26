@@ -1,11 +1,3 @@
-function SetSCOComplete()
-{
- 	var SD = window.parent;
-
-    //This is the last page so set it complete
-    SD.SetReachedEnd();
-	SD.CommitData();
-}
-
-//Automatically set the SCO complete.
-SetSCOComplete();
+// version: 7.12.0.a.1.6.2
+// sha: 0fe677852b6ba8d728f92f6cc7053b408bc05449
+function SetSCOComplete(){var e=window.parent;e.SetReachedEnd(),e.CommitData()}SetSCOComplete();

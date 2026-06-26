@@ -1,0 +1,32 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #333; }
+
+.admin-layout { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background: #1a1a2e; color: #fff; padding: 24px 16px; }
+.sidebar-logo { font-size: 1.4rem; margin-bottom: 32px; }
+.sidebar nav a { display: block; padding: 10px 12px; color: #ccc; text-decoration: none; border-radius: 6px; }
+.sidebar nav a.active { background: #16213e; color: #fff; }
+.admin-main { flex: 1; padding: 32px; }
+
+.roles-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.roles-header h1 { font-size: 1.5rem; }
+.badge { background: #1a1a2e; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; }
+
+.roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.role-card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.role-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.role-icon { width: 40px; height: 40px; border-radius: 50%; background: #e8eaf6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1a1a2e; }
+.role-card h3 { font-size: 1rem; }
+.dept { font-size: 0.8rem; color: #888; }
+.role-card-info { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.info-row { display: flex; flex-direction: column; gap: 4px; }
+.info-label { font-size: 0.75rem; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.info-value { font-size: 0.9rem; color: #333; }
+.tasks-count { font-weight: 700; color: #1a1a2e; }
+.access-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+.view-tag { background: #e3f2fd; color: #1565c0; }
+.edit-tag { background: #fce4ec; color: #c62828; }
+.role-card-bottom { border-top: 1px solid #eee; padding-top: 12px; display: flex; align-items: baseline; gap: 6px; }
+.emp-count { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; }
+.emp-label { font-size: 0.85rem; color: #888; }
