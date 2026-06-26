@@ -44,6 +44,9 @@ export default function WeekPlayerPage() {
       .catch(() => setLoading(false));
 
     try {
+      // Track last visited week so home page banner can detect where user left off
+      localStorage.setItem("scorm_last_visited_week", weekId);
+
       const saved = localStorage.getItem(`scorm_progress_week_${weekId}`);
       if (saved) {
         const d = JSON.parse(saved);
