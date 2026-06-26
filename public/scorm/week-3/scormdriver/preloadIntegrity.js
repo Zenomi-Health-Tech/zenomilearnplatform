@@ -1,4 +1,4 @@
-var COURSE_PACKAGE_VERSION = "l3fCnoDX";
+var COURSE_PACKAGE_VERSION = "LHFWPL-Y";
 var RESET_LEARNER_DATA = false;
 
 function isTrue(val) {
@@ -82,5 +82,5 @@ function commitHeartbeat() {
 }
 
 function getCourseTitle() {
-  return 'Introducing Empathy'
+  return 'Nutrition Essentials: Building Healthy Habits for Teens'
 }

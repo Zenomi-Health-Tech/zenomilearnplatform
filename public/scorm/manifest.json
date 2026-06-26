@@ -1,10 +1,12 @@
 {
   "weeks": {
-    "1": { "title": "Nutrition Essentials: Building Healthy Habits for Teens", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-05-15T01:00:00.000Z" },
-    "2": { "title": "What Are Emotions?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:17:00.000Z" },
-    "3": { "title": "What is Empathy?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
-    "4": { "title": "Self-Awareness", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
-    "5": { "title": "Self-Regulation", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
-    "6": { "title": "Resiliency for Teens", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-06-02T16:20:00.000Z" }
+    "1": { "title": "Sleep Smarter: Real-World Strategies for Teen Nights", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-06-26T00:00:00.000Z" },
+    "2": { "title": "Reset & Recharge: A 6-Week Challenge to Improve Your Sleep", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-06-26T00:00:00.000Z" },
+    "3": { "title": "Nutrition Essentials: Building Healthy Habits for Teens", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-05-15T01:00:00.000Z" },
+    "4": { "title": "What Are Emotions?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:17:00.000Z" },
+    "5": { "title": "What is Empathy?", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
+    "6": { "title": "Self-Awareness", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
+    "7": { "title": "Self-Regulation", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-04-18T14:25:00.000Z" },
+    "8": { "title": "Resiliency for Teens", "uploaded": true, "entryPoint": "scormdriver/indexAPI.html", "uploadedAt": "2026-06-02T16:20:00.000Z" }
   }
 }

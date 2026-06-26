@@ -1,3 +1,11 @@
-// version: 7.12.0.a.1.4.1
-// sha: 5d8e9020de613ed90881a5eb55369c6badd45130
-function SetSCOComplete(){var e=window.parent;e.SetReachedEnd(),e.CommitData()}SetSCOComplete();
+function SetSCOComplete()
+{
+ 	var SD = window.parent;
+
+    //This is the last page so set it complete
+    SD.SetReachedEnd();
+	SD.CommitData();
+}
+
+//Automatically set the SCO complete.
+SetSCOComplete();

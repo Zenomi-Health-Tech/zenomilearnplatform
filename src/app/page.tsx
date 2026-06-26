@@ -4,42 +4,56 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 const weeks = [
   {
-    week: 1, title: "Nutrition Essentials: Building Healthy Habits for Teens", color: "bg-[#704180]", colorHex: "#704180",
+    week: 1, title: "Sleep Smarter: Real-World Strategies for Teen Nights", color: "bg-[#3d6b8b]", colorHex: "#3d6b8b",
+    bullets: [
+      "Discover evidence-based strategies to improve sleep quality and establish healthy nighttime routines.",
+      "Learn how sleep impacts mood, focus, and overall teen wellbeing.",
+    ],
+  },
+  {
+    week: 2, title: "Reset & Recharge: A 6-Week Challenge to Improve Your Sleep", color: "bg-[#4a7a9e]", colorHex: "#4a7a9e",
+    bullets: [
+      "Take on a structured 6-week challenge designed to reset your sleep patterns.",
+      "Build lasting habits that help you wake up refreshed and ready to take on the day.",
+    ],
+  },
+  {
+    week: 3, title: "Nutrition Essentials: Building Healthy Habits for Teens", color: "bg-[#704180]", colorHex: "#704180",
     bullets: [
       "Learn the fundamentals of nutrition and how food choices impact your energy and mood.",
       "Build practical healthy eating habits that fit your lifestyle as a teen.",
     ],
   },
   {
-    week: 2, title: "What Are Emotions?", color: "bg-[#3d8b8b]", colorHex: "#3d8b8b",
+    week: 4, title: "What Are Emotions?", color: "bg-[#3d8b8b]", colorHex: "#3d8b8b",
     bullets: [
       "Understand the basics of emotions through five bite-sized micro lessons.",
       "Learn to recognize, name, and understand what emotions really are and why we have them.",
     ],
   },
   {
-    week: 3, title: "What is Empathy?", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
+    week: 5, title: "What is Empathy?", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
     bullets: [
       "Discover the power of empathy—understanding and sharing the feelings of others.",
       "Practice perspective-taking and learn how empathy strengthens relationships.",
     ],
   },
   {
-    week: 4, title: "Self-Awareness", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
+    week: 6, title: "Self-Awareness", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
     bullets: [
       "Develop a deeper understanding of yourself—your thoughts, feelings, and behaviors.",
       "Learn to recognize patterns and understand your unique emotional landscape.",
     ],
   },
   {
-    week: 5, title: "Self-Regulation", color: "bg-[#c46b7c]", colorHex: "#c46b7c",
+    week: 7, title: "Self-Regulation", color: "bg-[#c46b7c]", colorHex: "#c46b7c",
     bullets: [
       "Master techniques to manage your emotions and impulses effectively.",
       "Build a toolkit of strategies to calm down, think clearly, and respond thoughtfully.",
     ],
   },
   {
-    week: 6, title: "Resiliency for Teens", color: "bg-[#c4873a]", colorHex: "#c4873a",
+    week: 8, title: "Resiliency for Teens", color: "bg-[#c4873a]", colorHex: "#c4873a",
     bullets: [
       "Learn what it means to be resilient and understand its importance in our lives.",
       "Reframe negative thoughts, build positive relationships, and create a personalized Resiliency Toolkit.",

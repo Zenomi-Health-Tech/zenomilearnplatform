@@ -92,5 +92,5 @@ function commitHeartbeat() {
 }
 
 function getCourseTitle() {
-  return 'Resiliency for Teens'
+  return 'Self Awareness for Teens'
 }
