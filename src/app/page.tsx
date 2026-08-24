@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
 const weeks = [
@@ -205,12 +204,12 @@ function ContinueBanner({
             </p>
           )}
         </div>
-        <Link
+        <a
           href={`/courses/week/${resumeWeek.week}`}
           className="shrink-0 bg-[#704180] text-white text-[11px] sm:text-[13px] font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl hover:bg-[#5c3468] transition-colors whitespace-nowrap"
         >
           {label} →
-        </Link>
+        </a>
       </div>
     </div>
   );
@@ -237,7 +236,7 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
 
   return (
     <div ref={ref} className="reveal">
-      <Link href={`/courses/week/${w.week}`} className="block">
+      <a href={`/courses/week/${w.week}`} className="block">
         <div className="flex rounded-xl overflow-hidden border border-gray-200/80 card-hover relative bg-white">
           {/* Week sidebar */}
           <div className={`${w.color} text-white flex flex-col items-center justify-center w-[56px] sm:w-[64px] shrink-0`}>
@@ -320,7 +319,7 @@ function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null
             </div>
           </div>
         </div>
-      </Link>
+      </a>
     </div>
   );
 }
