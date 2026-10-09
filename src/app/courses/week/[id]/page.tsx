@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getToken, getCourseAccess } from "@/lib/api";
 import { useParams, useRouter } from "next/navigation";
 import ScormPlayer from "@/components/ScormPlayer";
 import Link from "next/link";
@@ -31,6 +32,28 @@ export default function WeekPlayerPage() {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [blocked, setBlocked] = useState<string | null>(null);
+
+  // The gate. No session means the teen did not arrive from the app, so send
+  // them to the door. A session that has not finished all five assessments is
+  // told which ones are outstanding rather than just refused.
+  useEffect(() => {
+    if (!getToken()) {
+      router.replace(`/enter?next=/courses/week/${weekId}`);
+      return;
+    }
+    getCourseAccess().then(({ ok, status, body }) => {
+      if (status === 401) {
+        router.replace(`/enter?next=/courses/week/${weekId}`);
+        return;
+      }
+      if (!ok) {
+        setBlocked(String((body as any).message ?? "These courses are not open yet."));
+        setLoading(false);
+      }
+    });
+  }, [weekId, router]);
+
   useEffect(() => {
     fetch("/api/scorm/manifest")
       .then((r) => r.json())
@@ -55,6 +78,20 @@ export default function WeekPlayerPage() {
       }
     } catch {}
   }, [weekId]);
+
+  if (blocked) {
+    return (
+      <div className="bg-gray-50 min-h-[calc(100vh-112px)] flex items-center justify-center px-4">
+        <div className="w-full max-w-md bg-white rounded-xl border border-gray-200 p-8 text-center">
+          <h1 className="text-xl font-semibold text-gray-900">Not open yet</h1>
+          <p className="mt-3 text-sm text-gray-600">{blocked}</p>
+          <p className="mt-4 text-xs text-gray-400">
+            Finish your assessments in the Zenomi app and these will unlock.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
