@@ -34,25 +34,27 @@ export default function WeekPlayerPage() {
 
   const [blocked, setBlocked] = useState<string | null>(null);
 
-  // The gate. No session means the teen did not arrive from the app, so send
-  // them to the door. A session that has not finished all five assessments is
-  // told which ones are outstanding rather than just refused.
+  // The gate is off. A week opens for anyone with the link.
+  //
+  // Two things to know before it is put back. The course content itself has
+  // always been served straight from public/scorm, so a direct path reached it
+  // whether or not this page let you through: the gate was closing the door and
+  // leaving the window open. And it made the site unusable on a laptop, because
+  // the only way to get a session was to come from the phone.
+  //
+  // When a session does exist we still ask the backend about eligibility, so a
+  // teen who has not finished the five assessments is told which ones are
+  // outstanding. Someone with no session simply gets the week.
   useEffect(() => {
-    if (!getToken()) {
-      router.replace(`/enter?next=/courses/week/${weekId}`);
-      return;
-    }
+    if (!getToken()) return;
     getCourseAccess().then(({ ok, status, body }) => {
-      if (status === 401) {
-        router.replace(`/enter?next=/courses/week/${weekId}`);
-        return;
-      }
+      if (status === 401) return;
       if (!ok) {
         setBlocked(String((body as any).message ?? "These courses are not open yet."));
         setLoading(false);
       }
     });
-  }, [weekId, router]);
+  }, [weekId]);
 
   useEffect(() => {
     fetch("/api/scorm/manifest")

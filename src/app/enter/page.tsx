@@ -72,9 +72,15 @@ function Enter() {
       <div className="text-center">
         <h1 className="text-xl font-semibold text-gray-900">Open this from the Zenomi app</h1>
         <p className="mt-2 text-sm text-gray-500">
-          ZenomiLearn opens from your Zenomi app or your Zenomi account, so we know it is you.
-          There is nothing to sign in to here.
+          Opening ZenomiLearn from your Zenomi app or your Zenomi account lets us keep your
+          progress with the rest of your Zenomi account.
         </p>
+        <Link
+          href="/courses"
+          className="mt-6 inline-block rounded-full bg-[#704180] px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          Browse the courses
+        </Link>
       </div>,
     );
   }
