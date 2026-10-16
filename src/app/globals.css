@@ -94,3 +94,9 @@ img, video, canvas, iframe {
 .header-glow {
   background: radial-gradient(ellipse at center top, rgba(112,65,128,0.03) 0%, transparent 50%);
 }
+
+/* breathing orb glow, used by the guided session player */
+@keyframes zenGlow {
+  from { opacity: 0.4; }
+  to   { opacity: 0.85; }
+}

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getToken, getCourseAccess } from "@/lib/api";
 import { useParams, useRouter } from "next/navigation";
 import ScormPlayer from "@/components/ScormPlayer";
 import Link from "next/link";
@@ -31,6 +32,30 @@ export default function WeekPlayerPage() {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [blocked, setBlocked] = useState<string | null>(null);
+
+  // The gate is off. A week opens for anyone with the link.
+  //
+  // Two things to know before it is put back. The course content itself has
+  // always been served straight from public/scorm, so a direct path reached it
+  // whether or not this page let you through: the gate was closing the door and
+  // leaving the window open. And it made the site unusable on a laptop, because
+  // the only way to get a session was to come from the phone.
+  //
+  // When a session does exist we still ask the backend about eligibility, so a
+  // teen who has not finished the five assessments is told which ones are
+  // outstanding. Someone with no session simply gets the week.
+  useEffect(() => {
+    if (!getToken()) return;
+    getCourseAccess().then(({ ok, status, body }) => {
+      if (status === 401) return;
+      if (!ok) {
+        setBlocked(String((body as any).message ?? "These courses are not open yet."));
+        setLoading(false);
+      }
+    });
+  }, [weekId]);
+
   useEffect(() => {
     fetch("/api/scorm/manifest")
       .then((r) => r.json())
@@ -55,6 +80,20 @@ export default function WeekPlayerPage() {
       }
     } catch {}
   }, [weekId]);
+
+  if (blocked) {
+    return (
+      <div className="bg-gray-50 min-h-[calc(100vh-112px)] flex items-center justify-center px-4">
+        <div className="w-full max-w-md bg-white rounded-xl border border-gray-200 p-8 text-center">
+          <h1 className="text-xl font-semibold text-gray-900">Not open yet</h1>
+          <p className="mt-3 text-sm text-gray-600">{blocked}</p>
+          <p className="mt-4 text-xs text-gray-400">
+            Finish your assessments in the Zenomi app and these will unlock.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
