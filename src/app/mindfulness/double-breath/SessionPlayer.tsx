@@ -61,9 +61,18 @@ function resolve(elapsed: number) {
 export default function SessionPlayer() {
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
+  // Read inside the run effect without making it a dependency, which would
+  // restart the anchor on every frame.
+  const elapsedRef = useRef(0);
   const [reduced, setReduced] = useState(false);
   const raf = useRef<number | null>(null);
-  const last = useRef(0);
+  // Elapsed time is derived from a wall clock anchor, not accumulated per
+  // frame. requestAnimationFrame is throttled to near zero in a background tab
+  // and stops entirely when the screen locks, so a frame accumulator silently
+  // loses however long the session was out of view. An anchor cannot: when the
+  // page comes back, the correct elapsed time is simply now minus the anchor.
+  const anchor = useRef(0);
+  const wakeLock = useRef<any>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -75,25 +84,63 @@ export default function SessionPlayer() {
 
   useEffect(() => {
     if (!playing) return;
-    last.current = performance.now();
-    const tick = (now: number) => {
-      const dt = now - last.current;
-      last.current = now;
-      setElapsed((e) => {
-        const next = e + dt;
-        if (next >= TOTAL) {
-          setPlaying(false);
-          return TOTAL;
-        }
-        return next;
-      });
+
+    // Anchor the run so elapsed survives a throttled or frozen tab.
+    anchor.current = performance.now() - elapsedRef.current;
+
+    const sync = () => {
+      const next = performance.now() - anchor.current;
+      if (next >= TOTAL) {
+        setElapsed(TOTAL);
+        setPlaying(false);
+        return true;
+      }
+      setElapsed(next);
+      return false;
+    };
+
+    const tick = () => {
+      if (sync()) return;
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
+
+    // Coming back from a locked screen, rAF may not fire for a moment and the
+    // session would appear stuck at the old frame. Resync immediately instead.
+    const onVisible = () => {
+      if (document.visibilityState !== "visible") return;
+      if (!sync()) {
+        if (raf.current) cancelAnimationFrame(raf.current);
+        raf.current = requestAnimationFrame(tick);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    // Best effort: ask the browser not to sleep the screen mid session. Not
+    // supported everywhere, notably iOS Safari, which is why the anchor above
+    // has to be correct on its own rather than relying on this.
+    let released = false;
+    const nav: any = navigator;
+    if (nav.wakeLock?.request) {
+      nav.wakeLock
+        .request("screen")
+        .then((l: any) => {
+          if (released) { l.release?.(); return; }
+          wakeLock.current = l;
+        })
+        .catch(() => {});
+    }
+
     return () => {
+      released = true;
       if (raf.current) cancelAnimationFrame(raf.current);
+      document.removeEventListener("visibilitychange", onVisible);
+      wakeLock.current?.release?.().catch?.(() => {});
+      wakeLock.current = null;
     };
   }, [playing]);
+
+  elapsedRef.current = elapsed;
 
   const { index, t } = useMemo(() => resolve(elapsed), [elapsed]);
   const cue = CUES[index];
