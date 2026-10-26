@@ -1,64 +1,26 @@
 "use client";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState } from "react";
+import InteractiveLearning from "@/components/InteractiveLearning";
+import LearnFooter from "@/components/LearnFooter";
+import BrandLockup from "@/components/BrandLockup";
+import HeroSphere from "@/components/HeroSphere";
+import LearningPath from "@/components/LearningPath";
+import SectionDivider from "@/components/SectionDivider";
 
+// Each week carries one stop on the logo gradient, crimson through to indigo,
+// so the journey line reads as the brand mark stretched over the course.
+// `week` is the SCORM folder id, used for links and saved progress. Reset &
+// Recharge (folder 2) is left out so the course has one sleep lesson, which is
+// shown as covering weeks 1 and 2; the rest keep their folder number, 3 to 8.
 const weeks = [
-  {
-    week: 1, title: "Sleep Smarter: Real-World Strategies for Teen Nights", color: "bg-[#3d6b8b]", colorHex: "#3d6b8b",
-    bullets: [
-      "Discover evidence-based strategies to improve sleep quality and establish healthy nighttime routines.",
-      "Learn how sleep impacts mood, focus, and overall teen wellbeing.",
-    ],
-  },
-  {
-    week: 2, title: "Reset & Recharge: A 6-Week Challenge to Improve Your Sleep", color: "bg-[#4a7a9e]", colorHex: "#4a7a9e",
-    bullets: [
-      "Take on a structured 6-week challenge designed to reset your sleep patterns.",
-      "Build lasting habits that help you wake up refreshed and ready to take on the day.",
-    ],
-  },
-  {
-    week: 3, title: "Nutrition Essentials: Building Healthy Habits for Teens", color: "bg-[#704180]", colorHex: "#704180",
-    bullets: [
-      "Learn the fundamentals of nutrition and how food choices impact your energy and mood.",
-      "Build practical healthy eating habits that fit your lifestyle as a teen.",
-    ],
-  },
-  {
-    week: 4, title: "What Are Emotions?", color: "bg-[#3d8b8b]", colorHex: "#3d8b8b",
-    bullets: [
-      "Understand the basics of emotions through five bite-sized micro lessons.",
-      "Learn to recognize, name, and understand what emotions really are and why we have them.",
-    ],
-  },
-  {
-    week: 5, title: "What is Empathy?", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
-    bullets: [
-      "Discover the power of empathy—understanding and sharing the feelings of others.",
-      "Practice perspective-taking and learn how empathy strengthens relationships.",
-    ],
-  },
-  {
-    week: 6, title: "Self-Awareness", color: "bg-[#4a9e6e]", colorHex: "#4a9e6e",
-    bullets: [
-      "Develop a deeper understanding of yourself—your thoughts, feelings, and behaviors.",
-      "Learn to recognize patterns and understand your unique emotional landscape.",
-    ],
-  },
-  {
-    week: 7, title: "Self-Regulation", color: "bg-[#c46b7c]", colorHex: "#c46b7c",
-    bullets: [
-      "Master techniques to manage your emotions and impulses effectively.",
-      "Build a toolkit of strategies to calm down, think clearly, and respond thoughtfully.",
-    ],
-  },
-  {
-    week: 8, title: "Resiliency for Teens", color: "bg-[#c4873a]", colorHex: "#c4873a",
-    bullets: [
-      "Learn what it means to be resilient and understand its importance in our lives.",
-      "Reframe negative thoughts, build positive relationships, and create a personalized Resiliency Toolkit.",
-    ],
-  },
-];
+  { week: 1, color: "#B40C48", title: "Sleep Smarter: Real-World Strategies for Teen Nights", blurb: "Evidence-based strategies to improve sleep quality and build healthy nighttime routines." },
+  { week: 3, color: "#A2165A", title: "Nutrition Essentials: Building Healthy Habits for Teens", blurb: "How food choices affect your energy and mood, and habits that fit your life." },
+  { week: 4, color: "#93226A", title: "What Are Emotions?", blurb: "Five bite-sized micro lessons on recognizing, naming and understanding emotions." },
+  { week: 5, color: "#84306C", title: "What is Empathy?", blurb: "Understanding and sharing the feelings of others, and how it strengthens relationships." },
+  { week: 6, color: "#6E32A0", title: "Self-Awareness", blurb: "Get to know your thoughts, feelings and behaviors, and the patterns behind them." },
+  { week: 7, color: "#6437B0", title: "Self-Regulation", blurb: "A toolkit of strategies to calm down, think clearly and respond thoughtfully." },
+  { week: 8, color: "#5A3CBE", title: "Resiliency for Teens", blurb: "Reframe negative thoughts, build positive relationships and create your Resiliency Toolkit." },
+].map((w) => ({ ...w, num: w.week, label: w.week === 1 ? "Weeks 1 & 2" : `Week ${w.week}` }));
 
 interface WeekProgress {
   status: string;
@@ -107,319 +69,207 @@ function loadAllProgress(): Record<number, WeekProgress | null> {
   return p;
 }
 
-function formatTime(t: string): string {
-  const m = t.match(/(\d+):(\d+):(\d+)/);
-  if (!m) return "";
-  const h = parseInt(m[1]), min = parseInt(m[2]);
-  if (h > 0) return `${h}h ${min}m`;
-  if (min > 0) return `${min}m`;
-  return "< 1m";
-}
+const isDone = (p?: WeekProgress | null) => p?.status === "completed" || p?.status === "passed";
 
-function useReveal(): RefObject<HTMLDivElement | null> {
-  const ref = useRef<HTMLDivElement>(null);
+/** Adds `visible` once the element scrolls into view, so the lessons arrive one by one. */
+function useReveal<T extends HTMLElement>(threshold = 0.2) {
+  const ref = useRef<T>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.15 }
+      { threshold }
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return ref;
 }
 
-// Clock icon SVG
-function ClockIcon() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="12 6 12 12 16 14"/>
-    </svg>
-  );
-}
+const headline = "A guided journey to understanding, managing, and thriving with your emotions.";
 
-// Pin icon SVG (replaces 📍)
-function PinIcon() {
+// The buttons stay the same whatever the teen has done; progress lives with
+// the lessons, not up here.
+function Hero() {
   return (
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-    </svg>
-  );
-}
-
-function ContinueBanner({
-  resumeWeek,
-  resumeProg,
-  completedCount,
-  totalWeeks,
-}: {
-  resumeWeek: (typeof weeks)[0];
-  resumeProg: WeekProgress | null;
-  completedCount: number;
-  totalWeeks: number;
-}) {
-  const isInProgress = resumeProg?.status === "incomplete";
-  const noneStarted = completedCount === 0 && !isInProgress;
-  const label = isInProgress ? "Continue" : noneStarted ? "Get Started" : "Next Up";
-  const overallPct = Math.round((completedCount / totalWeeks) * 100);
-
-  return (
-    <div className="mb-6 bg-white border border-[#704180]/20 rounded-2xl overflow-hidden shadow-sm">
-      {/* Overall progress bar */}
-      <div className="px-4 pt-4 pb-3 sm:px-5 sm:pt-5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Course Progress</span>
-          <span className="text-[10px] sm:text-[11px] font-semibold text-[#704180]">
-            {completedCount} of {totalWeeks} weeks complete
-          </span>
+    <section className="zl-hero relative overflow-hidden text-white">
+      <div className="relative mx-auto max-w-[1360px] px-4 sm:px-8 lg:px-12 pt-4 sm:pt-5 pb-2 grid lg:grid-cols-[1fr_auto] gap-x-10 gap-y-4">
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between gap-3">
+            <BrandLockup />
+            <span className="lg:hidden text-[24px] font-light tracking-[-0.015em]">Zenomi<span className="font-[family-name:var(--font-fraunces)] italic font-medium text-[#FFC2DD] ml-2">Learn</span></span>
+          </div>
+          <h1 aria-label={headline} className="my-auto pt-8 lg:pt-0 text-[30px] sm:text-[36px] lg:text-[clamp(34px,2.9vw,44px)] font-light leading-[1.22] tracking-[-0.015em]">
+            A guided journey to understanding,<br className="hidden sm:block" /> managing, and{" "}
+            <span className="font-[family-name:var(--font-fraunces)] italic font-medium text-[#FFC2DD]">thriving</span> with your emotions.
+          </h1>
         </div>
-        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-[#704180] to-[#9b5db5] rounded-full transition-all duration-700"
-            style={{ width: `${overallPct}%` }}
-          />
+        <div className="hidden lg:flex flex-col items-center">
+          <span className="mb-7 text-[32px] font-light tracking-[-0.015em]">Zenomi<span className="font-[family-name:var(--font-fraunces)] italic font-medium text-[#FFC2DD] ml-2">Learn</span></span>
+          <HeroSphere />
         </div>
-        {overallPct > 0 && (
-          <p className="mt-1 text-[10px] text-gray-400 text-right">{overallPct}% complete</p>
-        )}
       </div>
+    </section>
+  );
+}
 
-      {/* Divider */}
-      <div className="border-t border-gray-100" />
+// Weeks with a cover illustration, by SCORM folder id. Week 8's is 16:9, the
+// rest are wide 8:3 banners.
+const COVERS = new Set([1, 3, 4, 5, 6, 7, 8]);
 
-      {/* Resume / next up */}
-      <div className="px-4 py-3 sm:px-5 sm:py-4 flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#704180]">{label}</p>
-          <p className="mt-0.5 text-[13px] sm:text-[15px] font-medium text-gray-900 leading-snug line-clamp-1">
-            Week {resumeWeek.week}: {resumeWeek.title}
-          </p>
-          {isInProgress && resumeProg && (
-            <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">
-              {resumeProg.percentage}% complete · {100 - resumeProg.percentage}% left
-              {formatTime(resumeProg.totalTime) ? ` · ${formatTime(resumeProg.totalTime)} spent` : ""}
-            </p>
+// The four skills the last week ties together, as its cover lays them out.
+const RESILIENCE_SKILLS = [
+  { t: "Understand emotions", d: "Name what you feel." },
+  { t: "Practice empathy", d: "Connect with others." },
+  { t: "Build self-awareness", d: "Know strengths and triggers." },
+  { t: "Manage emotions", d: "Practice helpful responses." },
+];
+
+function LessonStep({ w, prog, isNext }: { w: (typeof weeks)[0]; prog: WeekProgress | null; isNext: boolean }) {
+  const ref = useReveal<HTMLLIElement>(0.25);
+  const done = isDone(prog);
+  const inProgress = prog?.status === "incomplete";
+  const label = done ? "Review" : inProgress ? "Resume" : "Start";
+
+  return (
+    <li ref={ref} className="zl-step" style={{ ["--c" as string]: w.color }}>
+      <a href={`/courses/week/${w.week}`} className="zl-card group grid overflow-hidden rounded-3xl bg-[#F5ECFD] sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+        {/* cover: the course illustration, or a brand panel until one exists */}
+        <span className={`relative block overflow-hidden ${!COVERS.has(w.week) ? "self-stretch min-h-[150px]" : w.week === 8 ? "self-center aspect-[16/9]" : "self-center aspect-[8/3]"}`}>
+          {COVERS.has(w.week) ? (
+            <img src={`/images/courses/week-${w.week}.jpg`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+          ) : (
+            <span className="absolute inset-0 grid place-items-center" style={{ background: `linear-gradient(135deg, ${w.color}, #2A0F24)` }}>
+              <span className="text-center text-white">
+                <span className="block text-[12px] font-semibold uppercase tracking-[0.2em] opacity-80">Week</span>
+                <span className="block text-[48px] font-bold leading-none">{w.num}</span>
+              </span>
+            </span>
           )}
+        </span>
+
+        <span className="flex flex-col border-t border-[#84306C]/10 px-5 py-5 sm:border-t-0 sm:border-l sm:px-7 sm:py-6">
+          <span className="flex items-center justify-between gap-3">
+            <span className="rounded-full px-2.5 py-1 text-[12px] font-semibold" style={{ color: "#fff", background: w.color }}>
+              {done ? "✓ " : ""}{w.label}
+            </span>
+            {done && <span className="zl-badge bg-[#E7F6EE] text-[#1F7A4D]">Completed</span>}
+            {inProgress && <span className="zl-badge bg-[#F3E9F7] text-[#6E32A0]">In progress</span>}
+            {isNext && !inProgress && !done && <span className="zl-badge bg-[#FCE7EF] text-[#B40C48]">Up next</span>}
+          </span>
+          <h3 className="mt-3 text-[18px] sm:text-[20px] font-semibold leading-snug text-[#2A0F24]">{w.title}</h3>
+          <p className="mt-1.5 text-[14px] leading-relaxed text-[#5B4560]">{w.blurb}</p>
+          {w.week === 8 && (
+            <span className="mt-4 block">
+              <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-[#5A3CBE]">Brings together</span>
+              <span className="mt-2 grid grid-cols-2 gap-2">
+                {RESILIENCE_SKILLS.map((k) => (
+                  <span key={k.t} className="rounded-xl bg-white/70 px-3 py-2">
+                    <span className="block text-[13px] font-semibold text-[#2A0F24]">{k.t}</span>
+                    <span className="block text-[12px] text-[#5B4560]">{k.d}</span>
+                  </span>
+                ))}
+              </span>
+              <span className="mt-3 block text-[13px] italic text-[#5B4560]">Adapt, recover, keep learning: resilience grows with practice and support.</span>
+            </span>
+          )}
+          <span className="mt-auto pt-4">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[14px] font-semibold text-white transition-opacity group-hover:opacity-90" style={{ background: w.color }}>
+              {label} <span className="zl-arrow">→</span>
+            </span>
+          </span>
+        </span>
+      </a>
+    </li>
+  );
+}
+
+/** Shown only once the teen has started a week; a new visitor sees just the lessons. */
+function ProgressCard({ completed, current, href, label }: { completed: number; current: (typeof weeks)[0] | undefined; href: string; label: string }) {
+  return (
+    <div className="zl-panel mb-8 rounded-2xl bg-white border border-[#84306C]/12 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-[13px] font-medium text-[#84306C]">Your progress</p>
+          <p className="mt-1 text-[15px] sm:text-[16px] font-semibold text-[#2A0F24] truncate">
+            {current ? `${current.label}: ${current.title}` : "You have finished every week"}
+          </p>
         </div>
-        <a
-          href={`/courses/week/${resumeWeek.week}`}
-          className="shrink-0 bg-[#704180] text-white text-[11px] sm:text-[13px] font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl hover:bg-[#5c3468] transition-colors whitespace-nowrap"
-        >
-          {label} →
+        <a href={href} className="zl-btn zl-btn-primary shrink-0 px-4 py-2 text-[13px]">
+          {label} <span className="zl-arrow">→</span>
         </a>
       </div>
+      <div className="mt-4 h-2 rounded-full bg-[#84306C]/12 overflow-hidden" aria-hidden>
+        <div className="h-full rounded-full bg-[#84306C]" style={{ width: `${(completed / weeks.length) * 100}%` }} />
+      </div>
+      <p className="mt-2 text-[12px] text-[#5B4560]">{completed} of {weeks.length} lessons complete</p>
     </div>
   );
 }
 
-function WeekCard({ w, prog }: { w: (typeof weeks)[0]; prog: WeekProgress | null }) {
-  const ref = useReveal();
-  const isCompleted = prog?.status === "completed" || prog?.status === "passed";
-  const isInProgress = prog?.status === "incomplete";
-  const notStarted = !prog;
-
-  const buttonLabel = isCompleted ? "Restart" : isInProgress ? "Resume" : "Start";
-  const buttonStyle = isCompleted
-    ? "bg-white text-[#2d8a5e] border border-[#2d8a5e]/30 hover:bg-[#2d8a5e]/5"
-    : isInProgress
-    ? "bg-white text-[#704180] border border-[#704180]/30 hover:bg-[#704180]/5"
-    : `text-white hover:opacity-90`;
-
-  const cleanLocation = (() => {
-    if (!prog?.location) return "";
-    if (/^\d+$/.test(prog.location)) return `Page ${prog.location}`;
-    return "";
-  })();
-
+function Lessons({ progress, nextWeek }: { progress: Record<number, WeekProgress | null>; nextWeek?: number }) {
   return (
-    <div ref={ref} className="reveal">
-      <a href={`/courses/week/${w.week}`} className="block">
-        <div className="flex rounded-xl overflow-hidden border border-gray-200/80 card-hover relative bg-white">
-          {/* Week sidebar */}
-          <div className={`${w.color} text-white flex flex-col items-center justify-center w-[56px] sm:w-[64px] shrink-0`}>
-            <span className="text-[9px] sm:text-[10px] font-semibold tracking-[0.2em] uppercase opacity-90">Week</span>
-            <span className="text-[28px] sm:text-[34px] font-bold leading-none mt-0.5">{w.week}</span>
-          </div>
-
-          {/* Content */}
-          <div className="px-3 py-3 sm:px-6 sm:py-5 flex-1 min-w-0">
-            {/* Title + badge */}
-            <div className="flex items-start justify-between gap-2 mb-2 sm:mb-3">
-              <h3 className="text-[16px] sm:text-[21px] font-[family-name:var(--font-playfair)] text-gray-900 leading-snug">
-                {w.title}
-              </h3>
-              {isCompleted && (
-                <span className="shrink-0 flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-[#2d8a5e] bg-[#2d8a5e]/8 border border-[#2d8a5e]/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2d8a5e]" />
-                  Done
-                </span>
-              )}
-              {isInProgress && (
-                <span className="shrink-0 flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-[#704180] bg-[#704180]/8 border border-[#704180]/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#704180] animate-pulse" />
-                  {prog.percentage}%
-                </span>
-              )}
-            </div>
-
-            {/* Bullets */}
-            <ul className="space-y-1.5 sm:space-y-2">
-              {w.bullets.map((b, j) => (
-                <li key={j} className="text-gray-600 text-[13px] sm:text-[15px] leading-[1.6] flex gap-2">
-                  <span className="mt-[6px] shrink-0 w-[5px] h-[5px] rounded-full bg-gray-300" />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Progress bar */}
-            {isInProgress && (
-              <div className="mt-4 h-[5px] bg-[#704180]/10 rounded-full overflow-hidden">
-                <div className="h-full bg-[#704180] rounded-full transition-all duration-500" style={{ width: `${prog.percentage}%` }} />
-              </div>
-            )}
-            {isCompleted && (
-              <div className="mt-4 h-[5px] bg-[#2d8a5e]/15 rounded-full overflow-hidden">
-                <div className="h-full bg-[#2d8a5e] rounded-full w-full" />
-              </div>
-            )}
-
-            {/* Footer: info + button */}
-            <div className="mt-3 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 text-[10px] sm:text-[12px] text-gray-400 flex-wrap min-w-0">
-                {isInProgress && cleanLocation && (
-                  <span className="flex items-center gap-0.5">
-                    <PinIcon />
-                    {cleanLocation}
-                  </span>
-                )}
-                {isInProgress && (
-                  <span className="text-[#704180] font-medium">{100 - prog.percentage}% left</span>
-                )}
-                {prog && formatTime(prog.totalTime) && (
-                  <span className="flex items-center gap-1">
-                    <ClockIcon />
-                    {formatTime(prog.totalTime)}
-                  </span>
-                )}
-                {isCompleted && (
-                  <span className="text-[#2d8a5e] font-medium">Complete ✓</span>
-                )}
-              </div>
-
-              <span
-                className={`shrink-0 text-[11px] sm:text-[12px] font-semibold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-all ${buttonStyle}`}
-                style={notStarted ? { backgroundColor: w.colorHex } : undefined}
-              >
-                {buttonLabel} →
-              </span>
-            </div>
-          </div>
-        </div>
-      </a>
+    <div className="zl-panel">
+      <h2 className="text-[30px] sm:text-[38px] font-light tracking-[-0.015em] text-white">Weekly <span className="font-[family-name:var(--font-fraunces)] italic font-medium text-[#FFC2DD]">lessons</span></h2>
+      <p className="mt-1.5 text-[15px] sm:text-[16px] text-white/75">One step at a time, at your own pace.</p>
+      <ol className="mt-6 space-y-5">
+        {weeks.map((w) => (
+          <LessonStep key={w.week} w={w} prog={progress[w.week] ?? null} isNext={w.week === nextWeek} />
+        ))}
+      </ol>
     </div>
   );
 }
 
 export default function Home() {
-  const [progressMap, setProgressMap] = useState<Record<number, WeekProgress | null>>({});
-  const headerRef = useReveal();
-
-  const refreshProgress = () => setProgressMap(loadAllProgress());
+  const [progress, setProgress] = useState<Record<number, WeekProgress | null>>({});
+  const [tab, setTab] = useState<"lessons" | "interactive">("lessons");
 
   useEffect(() => {
-    refreshProgress();
-    // Refresh when user returns to this tab after studying a week
-    window.addEventListener("focus", refreshProgress);
-    return () => window.removeEventListener("focus", refreshProgress);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Coming back from a story page lands on the Interactive tab. Read after
+    // mount, since the server render cannot see the query string.
+    if (new URLSearchParams(window.location.search).get("tab") !== "interactive") return;
+    const id = requestAnimationFrame(() => setTab("interactive"));
+    return () => cancelAnimationFrame(id);
   }, []);
 
-  // Determine which week to show in the "Continue" banner
-  const completedCount = weeks.filter((w) => {
-    const s = progressMap[w.week]?.status;
-    return s === "completed" || s === "passed";
-  }).length;
+  useEffect(() => {
+    const refresh = () => setProgress(loadAllProgress());
+    refresh();
+    // Refresh when the teen comes back to this tab after studying a week
+    window.addEventListener("focus", refresh);
+    return () => window.removeEventListener("focus", refresh);
+  }, []);
 
-  const firstInProgress = weeks.find((w) => progressMap[w.week]?.status === "incomplete");
-  // Prefer last-visited week over defaulting to Week 1 when nothing is in-progress
-  const lastVisitedId = (() => {
-    try { return parseInt(localStorage.getItem("scorm_last_visited_week") || ""); } catch { return NaN; }
-  })();
-  const lastVisitedWeek = !isNaN(lastVisitedId) ? weeks.find((w) => w.week === lastVisitedId) : undefined;
-  const firstNotStarted = weeks.find((w) => !progressMap[w.week]);
-  const resumeWeek = firstInProgress ?? lastVisitedWeek ?? firstNotStarted;
-  const allDone = completedCount === weeks.length;
+  const completed = weeks.filter((w) => isDone(progress[w.week])).length;
+  const inProgress = weeks.find((w) => progress[w.week]?.status === "incomplete");
+  const notStarted = weeks.find((w) => !progress[w.week]);
+  const next = inProgress ?? notStarted;
+  const started = completed > 0 || !!inProgress;
+  const resumeHref = `/courses/week/${next?.week ?? 1}`;
+  const resumeLabel = inProgress ? `Continue ${inProgress.label}` : completed === 0 ? "Start Week 1" : next ? `Start ${next.label}` : "Review the course";
 
   return (
-    <div className="bg-[#f4f0f7]">
-      {/* Header */}
-      <section ref={headerRef} className="reveal header-glow pt-12 sm:pt-24 pb-10 sm:pb-16 text-center px-4">
-        <p className="text-[10px] sm:text-[13px] font-semibold tracking-[0.25em] uppercase text-[#704180]">
-          8-Week Course
-        </p>
-        <h1 className="mt-4 text-[26px] sm:text-[42px] md:text-[52px] lg:text-[58px] font-[family-name:var(--font-playfair)] font-normal text-gray-900 leading-[1.15]">
-          Emotional Regulation<br className="hidden sm:block" /> for Teens
-        </h1>
-        <p className="mt-4 text-gray-500 text-[14px] sm:text-[17px] max-w-[520px] mx-auto leading-[1.7]">
-          A guided journey to understanding, managing, and thriving with your emotions.
-        </p>
-      </section>
-
-      {/* Cards with sticky side images */}
-      <section className="max-w-[1100px] mx-auto px-4 pb-20 sm:pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_220px] gap-x-8">
-          {/* Left image - sticky */}
-          <div className="hidden lg:block">
-            <div className="sticky top-20 float-anim">
-              <img src="/images/left.png" alt="Teens expressing emotions" width={332} height={417} className="w-[220px] h-auto" />
-            </div>
+    <div className="zl zl-stage font-[family-name:var(--font-poppins)] min-h-screen flex flex-col">
+      {/* Dark banner, light learning path, then the lists back on the banner's dark */}
+      <div className="zl-stage">
+      <Hero />
+      <SectionDivider to="path" label="Go to your learning path" />
+      <div id="path" className="zl-path-band scroll-mt-4">
+        <LearningPath tab={tab} setTab={setTab} />
+      </div>
+      <SectionDivider to="learn" label="Go to the lessons" />
+      <div>
+        <section id="learn" className="max-w-[1040px] mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-20 scroll-mt-4">
+          <div key={tab}>
+            {started && tab === "lessons" && <ProgressCard completed={completed} current={next} href={resumeHref} label={resumeLabel} />}
+            {tab === "lessons" ? <Lessons progress={progress} nextWeek={next?.week} /> : <InteractiveLearning />}
           </div>
-
-          {/* Center: continue banner + all week cards */}
-          <div>
-            {/* Continue / progress banner */}
-            {allDone ? (
-              <div className="mb-6 bg-white border border-[#2d8a5e]/20 rounded-2xl p-4 sm:p-5 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Course Progress</span>
-                  <span className="text-[10px] sm:text-[11px] font-semibold text-[#2d8a5e]">8 of 8 weeks complete</span>
-                </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
-                  <div className="h-full bg-[#2d8a5e] rounded-full w-full" />
-                </div>
-                <p className="text-[13px] sm:text-[15px] font-medium text-gray-800">
-                  You've completed the full course. Great work! ✓
-                </p>
-              </div>
-            ) : resumeWeek ? (
-              <ContinueBanner
-                resumeWeek={resumeWeek}
-                resumeProg={progressMap[resumeWeek.week] ?? null}
-                completedCount={completedCount}
-                totalWeeks={weeks.length}
-              />
-            ) : null}
-
-            {/* Week cards */}
-            <div className="space-y-4">
-              {weeks.map((w) => (
-                <WeekCard key={w.week} w={w} prog={progressMap[w.week]} />
-              ))}
-            </div>
-          </div>
-
-          {/* Right image - sticky */}
-          <div className="hidden lg:block">
-            <div className="sticky top-20 float-anim">
-              <img src="/images/right.png" alt="Teens together" width={319} height={374} className="w-[220px] h-auto" />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
+      </div>
+      <LearnFooter />
     </div>
   );
 }

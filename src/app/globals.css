@@ -100,3 +100,165 @@ img, video, canvas, iframe {
   from { opacity: 0.4; }
   to   { opacity: 0.85; }
 }
+
+/* ---------- ZenomiLearn homepage ----------
+   Motion is kept to three things: the hero fades in once, the progress bars
+   grow in once, and each lesson fades up as it scrolls into view. */
+.zl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+.zl-arrow { display: inline-block; transition: transform 0.2s ease; }
+.zl-btn:hover .zl-arrow, .zl-card:hover .zl-arrow { transform: translateX(3px); }
+.zl-btn-primary {
+  color: #fff;
+  background: #84306C;
+  box-shadow: 0 6px 16px -8px rgba(132, 48, 108, 0.6);
+}
+.zl-btn-primary:hover { background: #6E2759; }
+.zl-btn-light { background: #fff; color: #4B1336; }
+.zl-btn-light:hover { box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5); }
+.zl-btn-ghost { color: #fff; border: 1px solid rgba(255, 255, 255, 0.35); }
+.zl-btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Hero */
+.zl-hero {
+  background: radial-gradient(800px 380px at 90% -10%, rgba(90, 60, 190, 0.45), transparent 60%);
+}
+.zl-brandband { background: linear-gradient(120deg, #B40C48 0%, #84306C 50%, #5A3CBE 100%); }
+.zl-blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.45; pointer-events: none; }
+.zl-blob-a { width: 360px; height: 360px; left: -120px; top: -120px; background: #B40C48; }
+.zl-blob-b { width: 300px; height: 300px; right: 6%; bottom: -160px; background: #5A3CBE; }
+.zl-blob-c { display: none; }
+
+
+
+.zl-rise { opacity: 0; transform: translateY(12px); animation: zlRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.zl-d1 { animation-delay: 0.08s; }
+.zl-d2 { animation-delay: 0.12s; }
+.zl-d3 { animation-delay: 0.2s; }
+@keyframes zlRise { to { opacity: 1; transform: none; } }
+
+
+
+@keyframes zlGrow { to { transform: scaleX(1); } }
+
+.zl-chip {
+  position: absolute;
+  white-space: nowrap;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #4B1336;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px -10px rgba(20, 0, 30, 0.5);
+}
+.zl-chip-a { left: -44px; top: 16%; }
+.zl-chip-b { right: -30px; bottom: 14%; }
+
+.zl-panel { animation: zlRise 0.4s ease-out both; }
+
+/* Lesson cards */
+.zl-step { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+.zl-step.visible { opacity: 1; transform: none; }
+
+.zl-card {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 18px 40px -24px rgba(20, 0, 30, 0.75);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.zl-wk {
+  flex-shrink: 0;
+  width: 52px; height: 52px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: 12px;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 10%, white);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+@media (min-width: 640px) { .zl-wk { width: 58px; height: 58px; } }
+
+/* Hover: a soft wash of the week's colour, its badge fills in, and the
+   arrow steps forward. No lift or shadow, so the list stays calm. */
+.zl-card:hover { transform: translateY(-3px); box-shadow: 0 26px 50px -24px rgba(20, 0, 30, 0.85); }
+.zl-card h3 { transition: color 0.2s ease; }
+.zl-card:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
+
+.zl-badge { flex-shrink: 0; font-size: 11px; font-weight: 600; padding: 0.2rem 0.55rem; border-radius: 999px; }
+.zl-dot { width: 8px; height: 8px; border-radius: 50%; background: #84306C; opacity: 0.4; }
+
+@media (prefers-reduced-motion: reduce) {
+  .zl *, .zl *::before, .zl *::after { animation: none !important; transition: none !important; }
+  .zl-rise, .zl-step, .zl-seg { opacity: 1 !important; transform: none !important; }
+}
+
+/* Interactive Learning */
+.zl-row { transition: background 0.15s ease; }
+.zl-row:hover { background: #FBF7FC; }
+.zl-row:hover .zl-arrow { transform: translateX(3px); }
+
+.zl-sheet { animation: zlSheet 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes zlSheet { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+.zl-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #84306C var(--p), rgba(132, 48, 108, 0.15) var(--p));
+  cursor: pointer;
+}
+.zl-range::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #84306C; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+.zl-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #84306C; border: 2px solid #fff; }
+
+.zl-story { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.zl-story:hover { border-color: rgba(132, 48, 108, 0.3); box-shadow: 0 14px 32px -18px rgba(132, 48, 108, 0.45); }
+.zl-play { transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease; }
+.zl-story:hover .zl-play { transform: scale(1.08); background: #84306C; color: #fff; }
+.zl-range-dark { background: linear-gradient(to right, #F5A3C7 var(--p), rgba(255, 255, 255, 0.18) var(--p)); }
+.zl-range-dark::-webkit-slider-thumb { background: #F5A3C7; border-color: #2E1840; }
+.zl-range-dark::-moz-range-thumb { background: #F5A3C7; border-color: #2E1840; }
+
+
+
+/* Hero showcase: the active card fades up, the others rest out of view */
+.zl-show { opacity: 0; transform: translateY(14px) scale(0.98); pointer-events: none; transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.zl-show-on { opacity: 1; transform: none; pointer-events: auto; }
+
+/* Hero sphere: a fixed centre ball with the logo */
+.zl-core { background: radial-gradient(circle at 35% 30%, rgba(245, 163, 199, 0.75), #84306C 70%); box-shadow: 0 0 18px rgba(245, 163, 199, 0.2); }
+.zl-core-glow { background: radial-gradient(circle, rgba(245, 163, 199, 0.18), transparent 70%); }
+@media (prefers-reduced-motion: reduce) {  }
+/* Story page: the down arrow on the "listen next" bar nudges gently */
+.zl-bob { animation: zlBob 2s ease-in-out infinite; }
+@keyframes zlBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .zl-bob { animation: none; } }
+
+
+/* Janey: she rises in, then each bubble pops out from its tail in turn */
+.zl-janey-base { opacity: 0; transform: translateY(14px); }
+.zl-bubble { opacity: 0; transform: scale(0.55); }
+.zl-janey-on .zl-janey-base { animation: zlRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.zl-janey-on .zl-bubble { animation: zlPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes zlPop { 0% { opacity: 0; transform: scale(0.55); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .zl-janey-base, .zl-bubble { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* Learning path band: a pale wash of the banner's crimson-plum-violet,
+   between the dark banner and the dark lessons section. */
+/* One dark gradient runs behind the banner, the learning path and the lists.
+   The path band is a light layer over it that fades out at top and bottom, so
+   the three sections melt into each other with no seam to line up. */
+.zl-stage { background: linear-gradient(90deg, #7E0A36 0%, #84306C 48%, #5A3CBE 100%); }
+/* The learning path sits on the same continuous dark as the banner and lists. */
+.zl-path-band { padding: 24px 0 8px; }
+
+/* Section divider arrow: a slow nudge down */
+.zl-divider-arrow svg { animation: zlBob 2.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .zl-divider-arrow svg { animation: none; } }

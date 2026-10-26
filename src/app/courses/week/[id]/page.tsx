@@ -23,6 +23,10 @@ function formatLocation(loc: string): string {
   return "";
 }
 
+// The homepage shows the one sleep lesson as weeks 1 and 2; every other week
+// keeps its folder number.
+const SHOWN_NUMBER: Record<string, string> = { "1": "1 & 2" };
+
 export default function WeekPlayerPage() {
   const params = useParams();
   const router = useRouter();
@@ -106,7 +110,7 @@ export default function WeekPlayerPage() {
   if (!entryPoint) {
     return (
       <div className="flex flex-col items-center justify-center bg-white gap-4 px-4 text-center" style={{ height: "100dvh" }}>
-        <p className="text-gray-600">No content uploaded for Week {weekId} yet.</p>
+        <p className="text-gray-600">No content uploaded for Week {SHOWN_NUMBER[weekId] ?? weekId} yet.</p>
         <Link href="/" className="text-[#704180] hover:underline text-sm">← Back to course</Link>
       </div>
     );
@@ -131,7 +135,7 @@ export default function WeekPlayerPage() {
             ←
           </button>
           <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">
-            W{weekId}: {WEEK_TITLES[weekId] || ""}
+            W{SHOWN_NUMBER[weekId] ?? weekId}: {WEEK_TITLES[weekId] || ""}
           </span>
         </div>
         <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-500 shrink-0">
