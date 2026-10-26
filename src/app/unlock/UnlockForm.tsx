@@ -27,8 +27,8 @@ export default function UnlockForm() {
       // A missing env var is a setup fault, not the visitor's mistake, and
       // saying "wrong code" would send them hunting for a typo that is not there.
       return setError(
-        res.reason === "unconfigured"
-          ? "This preview is not set up yet. Please contact us and we will sort it."
+        res.reason === "unavailable"
+          ? "We cannot check that right now. Please try again in a moment."
           : "That code is not right. Please check and try again."
       );
     }
