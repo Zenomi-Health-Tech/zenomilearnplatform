@@ -1,15 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
+import BrandLockup from "@/components/BrandLockup";
 import { unlock } from "./actions";
 
 /**
  * The code screen.
  *
+ * Set on the plum the rest of ZenomiLearn uses for its dark sections, with the
+ * same lockup the hero carries, so the first thing a client sees belongs to the
+ * site rather than looking like a login bolted on front.
+ *
  * The check runs on the server, so this page holds no code and reveals nothing
- * if someone reads the bundle. It only collects what the visitor types, hands
- * it over, and sends them where they were going.
+ * to anyone reading the bundle. It collects what is typed, hands it over, and
+ * sends the visitor where they were going.
  */
 export default function UnlockForm() {
   const router = useRouter();
@@ -24,8 +28,8 @@ export default function UnlockForm() {
     const res = await unlock(formData);
     setBusy(false);
     if (!res.ok) {
-      // A missing env var is a setup fault, not the visitor's mistake, and
-      // saying "wrong code" would send them hunting for a typo that is not there.
+      // An unreachable API is not the visitor's mistake, and calling it a wrong
+      // code sends them hunting for a typo that is not there.
       return setError(
         res.reason === "unavailable"
           ? "We cannot check that right now. Please try again in a moment."
@@ -37,26 +41,32 @@ export default function UnlockForm() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#F7F4FB] px-5 py-12">
-      <div className="w-full max-w-md rounded-3xl border border-[#704180]/12 bg-white p-7 shadow-[0_10px_40px_-18px_rgba(112,65,128,0.35)] sm:p-9">
-        <Image
-          src="/images/zenomi-health-logo.png"
-          alt="Zenomi Health"
-          width={150}
-          height={34}
-          className="h-8 w-auto"
-          priority
-        />
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-12 font-[family-name:var(--font-poppins)]">
+      {/* The ground the ZenomiLearn hero itself sits on: the brand band, the
+          indigo light it carries over its top right, and its two blobs. Same
+          classes the home page uses, so the two cannot drift apart. */}
+      <div aria-hidden className="zl-brandband absolute inset-0 -z-10" />
+      <div aria-hidden className="zl-hero pointer-events-none absolute inset-0 -z-10" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <span className="zl-blob zl-blob-a" />
+        <span className="zl-blob zl-blob-b" />
+      </div>
 
-        <h1 className="mt-6 text-2xl font-semibold tracking-tight text-[#2A1430]">
-          ZenomiLearn
+      <div className="w-full max-w-md rounded-3xl border border-white/20 bg-white/[0.10] p-7 shadow-[0_30px_80px_-40px_rgba(28,6,24,0.9)] backdrop-blur-xl sm:p-9">
+        <BrandLockup boxed />
+
+        <h1 className="mt-7 text-2xl tracking-tight text-white sm:text-[28px]">
+          Zenomi{" "}
+          <span className="font-[family-name:var(--font-fraunces)] italic font-medium text-[#FFC2DD]">
+            Learn
+          </span>
         </h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-[#5B5266]">
+        <p className="mt-2 text-[15px] leading-relaxed text-white/60">
           This preview is not public yet. Enter the code you were given to open it.
         </p>
 
-        <form action={submit} className="mt-6">
-          <label htmlFor="code" className="block text-sm font-medium text-[#2A1430]">
+        <form action={submit} className="mt-7">
+          <label htmlFor="code" className="block text-[13px] font-medium text-white/70">
             Access code
           </label>
           <input
@@ -65,23 +75,25 @@ export default function UnlockForm() {
             autoFocus
             autoComplete="off"
             placeholder="Your code"
-            className="mt-2 w-full rounded-xl border border-[#704180]/25 bg-white px-4 py-3 text-base uppercase tracking-[0.18em] text-[#2A1430] outline-none transition placeholder:tracking-normal placeholder:text-[#9B8AA3] focus:border-[#8B2D6C] focus:ring-2 focus:ring-[#8B2D6C]/20"
+            className="mt-2 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-base uppercase tracking-[0.2em] text-white outline-none transition placeholder:tracking-normal placeholder:text-white/30 focus:border-[#CDB8F2]/60 focus:bg-white/[0.08]"
           />
-          {error && <p className="mt-2 text-sm text-[#AF2451]">{error}</p>}
+          {error && <p className="mt-2.5 text-sm text-[#FF9BBE]">{error}</p>}
 
           <button
             type="submit"
             disabled={busy}
-            className="mt-5 w-full rounded-xl px-6 py-3.5 text-[15px] font-semibold text-white transition disabled:opacity-50"
-            style={{ background: "linear-gradient(100deg,#704180,#8B2D6C 55%,#5B1A4E)" }}
+            className="zl-btn-light mt-6 w-full rounded-xl px-6 py-3.5 text-[15px] font-semibold transition disabled:opacity-60"
           >
-            {busy ? "Checking..." : "Open ZenomiLearn"}
+            {busy ? "Checking..." : "Open Zenomi Learn"}
           </button>
         </form>
 
-        <p className="mt-5 text-center text-xs text-[#9B8AA3]">
+        <p className="mt-6 text-center text-xs text-white/40">
           Do not have a code? Email{" "}
-          <a href="mailto:support@zenomihealth.com" className="text-[#8B2D6C] underline underline-offset-2">
+          <a
+            href="mailto:support@zenomihealth.com"
+            className="text-[#CDB8F2] underline underline-offset-2 hover:text-white"
+          >
             support@zenomihealth.com
           </a>
         </p>
