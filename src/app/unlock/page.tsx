@@ -7,7 +7,7 @@ import UnlockForm from "./UnlockForm";
  */
 export default function Unlock() {
   return (
-    <Suspense fallback={<main className="min-h-screen bg-[#F7F4FB]" />}>
+    <Suspense fallback={<main className="min-h-screen zl-brandband" />}>
       <UnlockForm />
     </Suspense>
   );
